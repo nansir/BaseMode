@@ -23,28 +23,30 @@ public final class NetWorkConfiguration {
      * 默认缓存
      */
     private boolean isCache;
-    //    是否进行磁盘缓存
+    //是否进行磁盘缓存
     private boolean isDiskCache;
-    //     是否进行内存缓存
+    //是否进行内存缓存
     private boolean isMemoryCache;
-    //    内存缓存时间单位S （默认为60s）
+    //内存缓存时间单位S （默认为60s）
     private int memoryCacheTime;
-    //    本地缓存时间单位S (默认为4周)
+    //本地缓存时间单位S (默认为4周)
     private int diskCacheTime;
-    //    缓存本地大小 单位字节（默认为30M）
+    //缓存本地大小 单位字节（默认为30M）
     private int maxDiskCacheSize;
-    //    缓存路径
+    //缓存路径
     private Cache diskCache;
-    //    设置超时时间
+    //设置超时时间
     private int connectTimeout;
-    //    设置网络最大连接数
+    //设置网络最大连接数
     private ConnectionPool connectionPool;
-    //    设置HttpS客户端带证书访问
+    //设置HttpS客户端带证书访问
     private InputStream[] certificates;
-    //    上下文
-    public Context context;
-    //    设置网络BaseUrl地址
+    //上下文
+    private Context mContext;
+    //设置网络BaseUrl地址
     private String baseUrl;
+    //设置token
+    private String authToken;
 
     public NetWorkConfiguration(Context content) {
         this.isCache = false;
@@ -53,12 +55,13 @@ public final class NetWorkConfiguration {
         this.memoryCacheTime = 60;
         this.diskCacheTime = 60 * 60 * 24 * 28;
         this.maxDiskCacheSize = 30 * 1024 * 1024;
-        this.context = content.getApplicationContext();
-        this.diskCache = new Cache(new File(this.context.getCacheDir(), "network"), maxDiskCacheSize);
+        this.mContext = content.getApplicationContext();
+        this.diskCache = new Cache(new File(this.mContext.getCacheDir(), "network"), maxDiskCacheSize);
         this.connectTimeout = 10000;
         this.connectionPool = new ConnectionPool(50, 60, TimeUnit.SECONDS);
-        certificates = null;
-        baseUrl = null;
+        this.certificates = null;
+        this.baseUrl = null;
+        this.authToken = "";
     }
 
     /**
@@ -243,8 +246,24 @@ public final class NetWorkConfiguration {
         return this;
     }
 
+    /***
+     * 设置token
+     * @param authToken
+     */
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
     public String getBaseUrl() {
         return this.baseUrl;
+    }
+
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
     @Override
@@ -260,7 +279,6 @@ public final class NetWorkConfiguration {
                 ", connectTimeout=" + connectTimeout +
                 ", connectionPool=" + connectionPool +
                 ", certificates=" + Arrays.toString(certificates) +
-                ", context=" + context +
                 ", baseUrl='" + baseUrl + '\'' +
                 '}';
     }

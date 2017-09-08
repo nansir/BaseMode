@@ -27,12 +27,13 @@ public class HttpUtils {
 
     public static final String TAG = "HttpUtils";
 
-    //    获得HttpUtils实例
+    //获得HttpUtils实例
     private static HttpUtils mInstance;
-    //    OkHttpClient对象
+    //OkHttpClient对象
     private OkHttpClient mOkHttpClient;
+    // 网络配置
     private static NetWorkConfiguration configuration;
-    // private Context context;
+
     /**
      * 是否加载本地缓存数据
      * 默认为TRUE
@@ -61,9 +62,10 @@ public class HttpUtils {
     /**
      * 是否加载内存缓存数据
      * 针对有网络情况
+     *
      * @param isCache true为加载 false不进行加载
-     *  用okhttp自带的缓存策略，因为这需要服务端配合处理缓存请求头
-     *  不然会抛出： HTTP 504 Unsatisfiable Request (only-if-cached)
+     *                用okhttp自带的缓存策略，因为这需要服务端配合处理缓存请求头
+     *                不然会抛出： HTTP 504 Unsatisfiable Request (only-if-cached)
      * @return
      */
     public HttpUtils setLoadMemoryCache(boolean isCache) {
@@ -71,13 +73,25 @@ public class HttpUtils {
         return this;
     }
 
+
+    /**
+     * 设置Token
+     *
+     * @param authToken
+     * @return
+     */
+    public HttpUtils setAuthToken(String authToken) {
+        configuration.setAuthToken(authToken);
+        return this;
+    }
+
+
+    /**
+     * 进行默认配置
+     * 未配置configuration
+     */
     public HttpUtils(Context context) {
         //创建默认 okHttpClient对象
-        //this.context = context;
-        /**进行默认配置
-         *    未配置configuration ,
-         *
-         */
         if (configuration == null) {
             configuration = new NetWorkConfiguration(context);
         }
@@ -160,10 +174,10 @@ public class HttpUtils {
     /**
      * 设置是否打印网络日志
      *
-     * @param falg
+     * @param flag
      */
-    public HttpUtils setDBugLog(boolean falg) {
-        if (falg) {
+    public HttpUtils setDBugLog(boolean flag) {
+        if (flag) {
             mOkHttpClient = getOkHttpClient().newBuilder()
                     .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build();
@@ -200,38 +214,30 @@ public class HttpUtils {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            /**
-             *  断网后是否加载本地缓存数据
-             *
-             */
-            if (!NetworkUtil.isNetworkAvailable(configuration.context) && isLoadDiskCache) {
+            // 断网后是否加载本地缓存数据
+            if (!NetworkUtil.isNetworkAvailable(configuration.getContext()) && isLoadDiskCache) {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
-            }
-            //加载内存缓存数据
-            else if (isLoadMemoryCache) {
+            } else if (isLoadMemoryCache) {//加载内存缓存数据
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
-            }
-            /**
-             *  加载网络数据
-             */
-            else {
+            } else {//加载网络数据
                 request = request.newBuilder()
+                        .addHeader("Authorization",configuration.getAuthToken())
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
             }
+
             Response response = chain.proceed(request);
             //有网进行内存缓存数据
-            if (NetworkUtil.isNetworkAvailable(configuration.context) && configuration.getIsMemoryCache()) {
+            if (NetworkUtil.isNetworkAvailable(configuration.getContext()) && configuration.getIsMemoryCache()) {
                 response.newBuilder()
                         .header("Cache-Control", "public, max-age=" + configuration.getmemoryCacheTime())
                         .removeHeader("Pragma")
                         .build();
-            } else {
-                //进行本地缓存数据
+            } else {//进行本地缓存数据
                 if (configuration.getIsDiskCache()) {
                     response.newBuilder()
                             .header("Cache-Control", "public, only-if-cached, max-stale=" + configuration.getDiskCacheTime())
