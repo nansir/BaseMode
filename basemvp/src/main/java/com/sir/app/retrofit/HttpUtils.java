@@ -110,6 +110,7 @@ public class HttpUtils {
         } else {
             mOkHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(new LogInterceptor())
+                    .addNetworkInterceptor(interceptor)
                     .connectTimeout(configuration.getConnectTimeOut(), TimeUnit.SECONDS)
                     .connectionPool(configuration.getConnectionPool())
                     .retryOnConnectionFailure(true)
@@ -225,7 +226,7 @@ public class HttpUtils {
                         .build();
             } else {//加载网络数据
                 request = request.newBuilder()
-                        .addHeader("Authorization",configuration.getAuthToken())
+                        .addHeader("Authorization", configuration.getAuthToken())
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
             }
