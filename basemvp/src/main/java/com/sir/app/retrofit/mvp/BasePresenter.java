@@ -1,6 +1,8 @@
 package com.sir.app.retrofit.mvp;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
@@ -64,5 +66,11 @@ public class BasePresenter<V extends BaseView, M extends BaseModel> implements P
 
     public boolean isViewBind() {
         return mView != null;
+    }
+
+    public void startActivity(Class<? extends Activity> activity) {
+        Intent mIntent = new Intent();
+        mIntent.setClass(mContext, activity);
+        mContext.startActivity(mIntent);
     }
 }

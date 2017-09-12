@@ -49,9 +49,9 @@ public final class NetWorkConfiguration {
     private String authToken;
 
     public NetWorkConfiguration(Context content) {
-        this.isCache = false;
-        this.isDiskCache = false;
-        this.isMemoryCache = false;
+        this.isCache = true;
+        this.isDiskCache = true;
+        this.isMemoryCache = true;
         this.memoryCacheTime = 60;
         this.diskCacheTime = 60 * 60 * 24 * 28;
         this.maxDiskCacheSize = 30 * 1024 * 1024;
@@ -82,11 +82,11 @@ public final class NetWorkConfiguration {
     /**
      * 是否进行磁盘缓存
      *
-     * @param diskcache
+     * @param diskCache
      * @return
      */
-    public NetWorkConfiguration isDiskCache(boolean diskcache) {
-        this.isDiskCache = diskcache;
+    public NetWorkConfiguration isDiskCache(boolean diskCache) {
+        this.isDiskCache = diskCache;
         return this;
     }
 
@@ -97,11 +97,11 @@ public final class NetWorkConfiguration {
     /**
      * 是否进行内存缓存
      *
-     * @param memorycache
+     * @param memoryCache
      * @return
      */
-    public NetWorkConfiguration isMemoryCache(boolean memorycache) {
-        this.isMemoryCache = memorycache;
+    public NetWorkConfiguration isMemoryCache(boolean memoryCache) {
+        this.isMemoryCache = memoryCache;
         return this;
     }
 
@@ -114,34 +114,34 @@ public final class NetWorkConfiguration {
      * 用okhttp自带的缓存策略，因为这需要服务端配合处理缓存请求头不然会抛出：
      * HTTP 504 Unsatisfiable Request (only-if-cached)
      *
-     * @param memorycachetime
+     * @param memoryCacheTime
      * @return
      */
-    public NetWorkConfiguration memoryCacheTime(int memorycachetime) {
-        if (memorycachetime <= 0) {
+    public NetWorkConfiguration memoryCacheTime(int memoryCacheTime) {
+        if (memoryCacheTime <= 0) {
             Log.e(TAG, "configure memoryCacheTime  exception!");
             return this;
         }
-        this.memoryCacheTime = memorycachetime;
+        this.memoryCacheTime = memoryCacheTime;
         return this;
     }
 
-    public int getmemoryCacheTime() {
+    public int getMemoryCacheTime() {
         return this.memoryCacheTime;
     }
 
     /**
      * 设置本地缓存时间
      *
-     * @param diskcahetime
+     * @param diskCacheTime
      * @return
      */
-    public NetWorkConfiguration diskCacheTime(int diskcahetime) {
-        if (diskcahetime <= 0) {
+    public NetWorkConfiguration diskCacheTime(int diskCacheTime) {
+        if (diskCacheTime <= 0) {
             Log.e(TAG, " configure diskCacheTime  exception!");
             return this;
         }
-        this.diskCacheTime = diskcahetime;
+        this.diskCacheTime = diskCacheTime;
         return this;
     }
 
@@ -254,9 +254,11 @@ public final class NetWorkConfiguration {
         this.authToken = authToken;
     }
 
+
     public String getBaseUrl() {
         return this.baseUrl;
     }
+
 
     public String getAuthToken() {
         return authToken;

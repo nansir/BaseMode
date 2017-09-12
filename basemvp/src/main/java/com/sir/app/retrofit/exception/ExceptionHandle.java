@@ -33,7 +33,7 @@ public class ExceptionHandle {
         ResponseThrowable ex;
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-            ex = new ResponseThrowable(e, ERROR.HTTP_ERROR);
+            ex = new ResponseThrowable(e, ErrorCode.HTTP_ERROR);
             switch (httpException.code()) {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
@@ -56,60 +56,26 @@ public class ExceptionHandle {
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {
-            ex = new ResponseThrowable(e, ERROR.PARSE_ERROR);
+            ex = new ResponseThrowable(e, ErrorCode.PARSE_ERROR);
             ex.message = "解析异常";
             return ex;
         } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
-            ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR);
+            ex = new ResponseThrowable(e, ErrorCode.NETWORD_ERROR);
             ex.message = "无网络,请重试!";
             return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
-            ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
+            ex = new ResponseThrowable(e, ErrorCode.SSL_ERROR);
             ex.message = "证书验证异常";
             return ex;
         } else if (e instanceof ConnectTimeoutException || e instanceof java.net.SocketTimeoutException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex = new ResponseThrowable(e, ErrorCode.TIMEOUT_ERROR);
             ex.message = "连接超时";
             return ex;
         } else {
-            ex = new ResponseThrowable(e, ERROR.UNKNOWN);
+            ex = new ResponseThrowable(e, ErrorCode.UNKNOWN);
             ex.message = "未知错误";
             return ex;
         }
     }
-
-    /**
-     * 约定异常
-     */
-    class ERROR {
-        /**
-         * 未知错误
-         */
-        public static final int UNKNOWN = 1000;
-        /**
-         * 解析错误
-         */
-        public static final int PARSE_ERROR = 1001;
-        /**
-         * 网络错误
-         */
-        public static final int NETWORD_ERROR = 1002;
-        /**
-         * 协议出错
-         */
-        public static final int HTTP_ERROR = 1003;
-
-        /**
-         * 证书出错
-         */
-        public static final int SSL_ERROR = 1005;
-
-        /**
-         * 连接超时
-         */
-        public static final int TIMEOUT_ERROR = 1006;
-
-    }
-
 }
 

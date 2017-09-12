@@ -34,6 +34,7 @@ public class HttpUtils {
     // 网络配置
     private static NetWorkConfiguration configuration;
 
+
     /**
      * 是否加载本地缓存数据
      * 默认为TRUE
@@ -73,7 +74,6 @@ public class HttpUtils {
         return this;
     }
 
-
     /**
      * 设置Token
      *
@@ -85,7 +85,6 @@ public class HttpUtils {
         return this;
     }
 
-
     /**
      * 进行默认配置
      * 未配置configuration
@@ -95,13 +94,11 @@ public class HttpUtils {
         if (configuration == null) {
             configuration = new NetWorkConfiguration(context);
         }
+
         if (configuration.getIsCache()) {
             mOkHttpClient = new OkHttpClient.Builder()
-                    //网络缓存拦截器
-                    .addInterceptor(interceptor)
-                    .addNetworkInterceptor(interceptor)
-                    //自定义网络Log显示
-                    .addInterceptor(new LogInterceptor())
+                    .addNetworkInterceptor(interceptor)     //添加网络拦截器
+                    .addInterceptor(new LogInterceptor()) //自定义网络Log显示
                     .cache(configuration.getDiskCache())
                     .connectTimeout(configuration.getConnectTimeOut(), TimeUnit.SECONDS)
                     .connectionPool(configuration.getConnectionPool())
@@ -109,19 +106,15 @@ public class HttpUtils {
                     .build();
         } else {
             mOkHttpClient = new OkHttpClient.Builder()
-                    .addInterceptor(new LogInterceptor())
                     .addNetworkInterceptor(interceptor)
+                    .addInterceptor(new LogInterceptor())
                     .connectTimeout(configuration.getConnectTimeOut(), TimeUnit.SECONDS)
                     .connectionPool(configuration.getConnectionPool())
                     .retryOnConnectionFailure(true)
                     .build();
 
         }
-        /**
-         *
-         *  判断是否在AppLication中配置Https证书
-         *
-         */
+        //判断是否在AppLocation中配置Https证书
         if (configuration.getCertificates() != null) {
             mOkHttpClient = getOkHttpClient().newBuilder()
                     .sslSocketFactory(HttpsUtils.getSslSocketFactory(configuration.getCertificates(), null, null))
@@ -175,10 +168,10 @@ public class HttpUtils {
     /**
      * 设置是否打印网络日志
      *
-     * @param flag
+     * @param falg
      */
-    public HttpUtils setDBugLog(boolean flag) {
-        if (flag) {
+    public HttpUtils setDBugLog(boolean falg) {
+        if (falg) {
             mOkHttpClient = getOkHttpClient().newBuilder()
                     .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build();
@@ -215,12 +208,12 @@ public class HttpUtils {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
-            // 断网后是否加载本地缓存数据
+            //断网后是否加载本地缓存数据
             if (!NetworkUtil.isNetworkAvailable(configuration.getContext()) && isLoadDiskCache) {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
-            } else if (isLoadMemoryCache) {//加载内存缓存数据
+            } else if (isLoadMemoryCache) { //加载内存缓存数据
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();
@@ -232,10 +225,11 @@ public class HttpUtils {
             }
 
             Response response = chain.proceed(request);
+
             //有网进行内存缓存数据
             if (NetworkUtil.isNetworkAvailable(configuration.getContext()) && configuration.getIsMemoryCache()) {
                 response.newBuilder()
-                        .header("Cache-Control", "public, max-age=" + configuration.getmemoryCacheTime())
+                        .header("Cache-Control", "public, max-age=" + configuration.getMemoryCacheTime())
                         .removeHeader("Pragma")
                         .build();
             } else {//进行本地缓存数据
@@ -246,6 +240,7 @@ public class HttpUtils {
                             .build();
                 }
             }
+
             return response;
         }
     };
