@@ -27,7 +27,6 @@ public class ModuleActivity extends BaseMvpActivity<ModuleModel, ModulePresenter
     @BindView(R.id.content)
     TextView content;
 
-
     @Override
     public int bindLayout() {
         return R.layout.activity_module;
@@ -55,7 +54,7 @@ public class ModuleActivity extends BaseMvpActivity<ModuleModel, ModulePresenter
     }
 
     @Override
-    public void onFailure(String msg) {
+    public void onFailure(int code,String msg) {
         content.setText(msg);
     }
 
@@ -63,7 +62,6 @@ public class ModuleActivity extends BaseMvpActivity<ModuleModel, ModulePresenter
     public void onSuccess(int code, Object object) {
         if (code == 100) {
             NewsChannelList newsChannelList = (NewsChannelList) object;
-
             content.setText(new Gson().toJson(newsChannelList));
         }
     }

@@ -23,7 +23,7 @@ public class ModulePresenter extends ModuleContract.Presenter {
 
             @Override
             protected void onError(ResponseThrowable ex) {
-                mView.onFailure(ex.message);
+                mView.onFailure(100,ex.message);
             }
         }));
     }
