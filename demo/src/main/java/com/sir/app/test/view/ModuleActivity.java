@@ -54,7 +54,7 @@ public class ModuleActivity extends BaseMvpActivity<ModuleModel, ModulePresenter
     }
 
     @Override
-    public void onFailure(int code,String msg) {
+    public void onFailure(int code, String msg) {
         content.setText(msg);
     }
 
@@ -64,5 +64,10 @@ public class ModuleActivity extends BaseMvpActivity<ModuleModel, ModulePresenter
             NewsChannelList newsChannelList = (NewsChannelList) object;
             content.setText(new Gson().toJson(newsChannelList));
         }
+    }
+
+    @Override
+    public void inProgress() {
+        content.setText("正在请求..");
     }
 }

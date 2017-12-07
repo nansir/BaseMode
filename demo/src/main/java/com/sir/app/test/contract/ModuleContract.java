@@ -15,15 +15,15 @@ import rx.Observable;
  */
 public interface ModuleContract {
 
-    interface View extends BaseView{
-
+    interface View extends BaseView {
+        void inProgress();
     }
 
-    interface Model extends BaseModel{
+    interface Model extends BaseModel {
         Observable<NewsChannelList> getNewsChannelList(Context context);
     }
 
-    abstract class Presenter extends BasePresenter<View,Model>{
+    abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void getNewsChannelList(Context context);
     }
 }

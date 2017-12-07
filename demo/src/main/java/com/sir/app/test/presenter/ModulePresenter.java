@@ -15,6 +15,7 @@ public class ModulePresenter extends ModuleContract.Presenter {
 
     @Override
     public void getNewsChannelList(Context context) {
+        mView.inProgress();
         addSubscribe(mModel.getNewsChannelList(context).subscribe(new RxSubscriber<NewsChannelList>() {
             @Override
             public void onSuccess(NewsChannelList newsChannelList) {
