@@ -1,46 +1,23 @@
-package com.sir.app.test.transformer;
+package com.sir.library.retrofit.transformer;
 
-import com.sir.app.test.model.bean.NewsResponse;
 import com.sir.library.retrofit.exception.ExceptionHandle;
 import com.sir.library.retrofit.exception.ServerException;
+import com.sir.library.retrofit.response.HttpDefaultResponse;
 
 import rx.Observable;
 import rx.functions.Func1;
 
 
-public class NewsErrorTransformer<T> implements Observable.Transformer<NewsResponse<T>, T> {
+public class ErrorTransformer<T> implements Observable.Transformer<HttpDefaultResponse<T>, T> {
 
-    private static NewsErrorTransformer instance = null;
-
-    private NewsErrorTransformer() {
-
-    }
-
-    public static <T> NewsErrorTransformer<T> create() {
-        return new NewsErrorTransformer<>();
-    }
-
-    /**
-     * 双重校验锁单例(线程安全)
-     */
-    public static <T> NewsErrorTransformer<T> getInstance() {
-        if (instance == null) {
-            synchronized (NewsErrorTransformer.class) {
-                if (instance == null) {
-                    instance = new NewsErrorTransformer();
-                }
-            }
-        }
-        return instance;
-    }
-
+    private static ErrorTransformer instance = null;
 
     @Override
-    public Observable<T> call(Observable<NewsResponse<T>> httpResponseObservable) {
+    public Observable<T> call(Observable<HttpDefaultResponse<T>> httpResponseObservable) {
         //   对服务器端给出Json数据进行校验
-        return httpResponseObservable.map(new Func1<NewsResponse<T>, T>() {
+        return httpResponseObservable.map(new Func1<HttpDefaultResponse<T>, T>() {
             @Override
-            public T call(NewsResponse<T> tHttpResponse) {
+            public T call(HttpDefaultResponse<T> tHttpResponse) {
                 if (tHttpResponse.getShowapi_res_code() != 0) {
                     //如果服务器端有错误信息返回，那么抛出异常，让下面的方法去捕获异常做统一处理
                     throw new ServerException(String.valueOf(tHttpResponse.getShowapi_res_error()), tHttpResponse.getShowapi_res_code());
@@ -56,6 +33,27 @@ public class NewsErrorTransformer<T> implements Observable.Transformer<NewsRespo
                 return Observable.error(ExceptionHandle.handleException(throwable));
             }
         });
+    }
+
+    private ErrorTransformer() {
+    }
+
+    public static <T> ErrorTransformer<T> create() {
+        return new ErrorTransformer<>();
+    }
+
+    /**
+     * 双重校验锁单例(线程安全)
+     */
+    public static <T> ErrorTransformer<T> getInstance() {
+        if (instance == null) {
+            synchronized (ErrorTransformer.class) {
+                if (instance == null) {
+                    instance = new ErrorTransformer();
+                }
+            }
+        }
+        return instance;
     }
 
 

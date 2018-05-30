@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.sir.app.retrofit.mvp.BaseMvpActivity;
-import com.sir.app.retrofit.mvp.BaseView;
+import com.sir.library.retrofit.mvp.BaseMvpActivity;
+import com.sir.library.retrofit.mvp.BaseView;
 import com.sir.app.test.R;
 import com.sir.app.test.contract.ModuleContract;
 import com.sir.app.test.model.ModuleModel;
@@ -50,7 +50,7 @@ public class ModuleActivity extends BaseMvpActivity<ModuleModel, ModulePresenter
 
     @OnClick(R.id.request)
     public void onClickBtn(View view) {
-        mPresenter.getNewsChannelList(getContext());
+        mPresenter.getNewsChannelList(getActivity());
     }
 
     @Override

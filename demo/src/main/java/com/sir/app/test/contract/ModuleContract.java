@@ -2,9 +2,9 @@ package com.sir.app.test.contract;
 
 import android.content.Context;
 
-import com.sir.app.retrofit.mvp.BaseModel;
-import com.sir.app.retrofit.mvp.BasePresenter;
-import com.sir.app.retrofit.mvp.BaseView;
+import com.sir.library.retrofit.mvp.BaseModel;
+import com.sir.library.retrofit.mvp.BasePresenter;
+import com.sir.library.retrofit.mvp.BaseView;
 import com.sir.app.test.model.bean.NewsChannelList;
 
 import rx.Observable;

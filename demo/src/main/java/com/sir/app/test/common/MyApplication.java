@@ -1,6 +1,6 @@
 package com.sir.app.test.common;
 
-import com.sir.app.base.BaseApplication;
+import com.sir.library.base.BaseApplication;
 
 /**
  * Created by zhuyinan on 2017/8/8.

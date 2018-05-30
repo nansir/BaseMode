@@ -1,6 +1,5 @@
 package com.sir.app.test.api;
 
-
 import com.sir.app.test.model.bean.MeiZiResponse;
 import com.sir.app.test.model.bean.MeiZi;
 

@@ -2,10 +2,10 @@ package com.sir.app.test.presenter;
 
 import android.content.Context;
 
-import com.sir.app.retrofit.callback.RxSubscriber;
-import com.sir.app.retrofit.exception.ResponseThrowable;
 import com.sir.app.test.contract.ModuleContract;
 import com.sir.app.test.model.bean.NewsChannelList;
+import com.sir.library.retrofit.callback.RxSubscriber;
+import com.sir.library.retrofit.exception.ResponseThrowable;
 
 /**
  * Created by zhuyinan on 2017/8/8.
@@ -24,7 +24,7 @@ public class ModulePresenter extends ModuleContract.Presenter {
 
             @Override
             protected void onError(ResponseThrowable ex) {
-                mView.onFailure(100,ex.message);
+                mView.onFailure(100, ex.message);
             }
         }));
     }

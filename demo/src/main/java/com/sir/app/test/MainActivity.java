@@ -7,14 +7,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.sir.app.base.BaseActivity;
-import com.sir.app.retrofit.HttpUtils;
-import com.sir.app.retrofit.callback.RxSubscriber;
-import com.sir.app.retrofit.exception.ResponseThrowable;
+import com.sir.library.retrofit.HttpUtils;
+import com.sir.library.retrofit.callback.RxSubscriber;
+import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.app.test.api.MeiZiApi;
 import com.sir.app.test.model.bean.MeiZi;
 import com.sir.app.test.model.bean.MeiZiResponse;
 import com.sir.app.test.view.ModuleActivity;
+import com.sir.library.base.BaseActivity;
 
 import java.util.List;
 
