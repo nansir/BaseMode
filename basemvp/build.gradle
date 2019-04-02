@@ -2,7 +2,6 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion COMPILE_SDK_VERSION
-    buildToolsVersion BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion MIN_SDK_VERSION
@@ -15,23 +14,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    //base
-    compile 'com.sir.library:baseapp:1.3.7'
+    implementation libSupportAppcompat_v7
+    implementation libSupportAppcompat_v4
+    implementation libSupportDesign
+    api 'com.sir.library:baseapp:1.4.1'
     //Retrofit2
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-    compile 'com.squareup.retrofit2:retrofit-adapters:2.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
-    compile 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    api 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    implementation 'com.squareup.retrofit2:retrofit-adapters:2.1.0'
+    api 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
     //RxJava and RxAndroid
-    compile 'io.reactivex:rxjava:1.1.9'
-    compile 'io.reactivex:rxandroid:1.2.0'
+    implementation 'io.reactivex:rxjava:1.1.9'
+    api 'io.reactivex:rxandroid:1.2.0'
     //okhttp
-    compile 'com.squareup.okhttp3:parent:3.6.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    api 'com.squareup.okhttp3:parent:3.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 }
 
 
@@ -49,7 +51,7 @@ def siteUrl = 'https://github.com/nansir/BaseMvp'    // 项目主页
 def gitUrl = 'git@github.com:nansir/BaseMvp.git' // Git仓库的url
 
 //唯一包名
-group = "com.sir.app"
+group = "com.sir.library"
 
 install {
     repositories.mavenInstaller {

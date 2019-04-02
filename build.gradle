@@ -3,9 +3,13 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.2.1'
 
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
@@ -21,16 +25,20 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
 
-    def supportVersion = "26.0.0"
+    def supportVersion = "28.0.0"
 
     //版本控制
     ext {
-        COMPILE_SDK_VERSION = 26
-        BUILD_TOOLS_VERSION = "27.0.0"
-        MIN_SDK_VERSION = 15
-        TARGET_SDK_VERSION = 26
+        COMPILE_SDK_VERSION = 28
+        BUILD_TOOLS_VERSION = "28.0.3"
+        MIN_SDK_VERSION = 21
+        TARGET_SDK_VERSION = 28
 
         libSupportAppcompat_v7 = "com.android.support:appcompat-v7:${supportVersion}"
         libSupportAppcompat_v4 = "com.android.support:support-v4:${supportVersion}"

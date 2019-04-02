@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity {
     public void onClickBtn(View view) {
         switch (view.getId()) {
             case R.id.mvp:
-                getOperation().forward(ModuleActivity.class);
+                mOperation.forward(ModuleActivity.class);
                 break;
             case R.id.request:
                 message.setText("开始请求");
