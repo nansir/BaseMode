@@ -6,7 +6,7 @@ import com.sir.app.test.api.ModuleApi;
 import com.sir.app.test.contract.ModuleContract;
 import com.sir.app.test.model.bean.NewsChannelList;
 import com.sir.app.test.transformer.NewsTransformer;
-import com.sir.library.retrofit.HttpUtils;
+import com.sir.library.mvp.http.HttpUtils;
 
 import rx.Observable;
 

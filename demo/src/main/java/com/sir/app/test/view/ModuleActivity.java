@@ -6,8 +6,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.sir.library.retrofit.mvp.BaseMvpActivity;
-import com.sir.library.retrofit.mvp.BaseView;
+import com.sir.library.mvp.base.BaseMvpActivity;
+import com.sir.library.mvp.base.BaseView;
 import com.sir.app.test.R;
 import com.sir.app.test.contract.ModuleContract;
 import com.sir.app.test.model.ModuleModel;

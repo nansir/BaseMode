@@ -7,9 +7,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.sir.library.retrofit.HttpUtils;
-import com.sir.library.retrofit.callback.RxSubscriber;
-import com.sir.library.retrofit.exception.ResponseThrowable;
+import com.sir.library.mvp.http.HttpUtils;
+import com.sir.library.mvp.http.callback.RxSubscriber;
+import com.sir.library.mvp.http.exception.ResponseThrowable;
 import com.sir.app.test.api.MeiZiApi;
 import com.sir.app.test.model.bean.MeiZi;
 import com.sir.app.test.model.bean.MeiZiResponse;

@@ -4,8 +4,8 @@ import android.content.Context;
 
 import com.sir.app.test.contract.ModuleContract;
 import com.sir.app.test.model.bean.NewsChannelList;
-import com.sir.library.retrofit.callback.RxSubscriber;
-import com.sir.library.retrofit.exception.ResponseThrowable;
+import com.sir.library.mvp.http.callback.RxSubscriber;
+import com.sir.library.mvp.http.exception.ResponseThrowable;
 
 /**
  * Created by zhuyinan on 2017/8/8.
