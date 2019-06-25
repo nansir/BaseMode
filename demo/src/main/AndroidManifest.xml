@@ -11,13 +11,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="design_width"
-            android:value="720" />
-        <meta-data
-            android:name="design_height"
-            android:value="1080" />
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +20,11 @@
         </activity>
 
         <activity
-            android:name=".view.ModuleActivity"
+            android:name=".mvp.view.MVPActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".mvvm.view.MVVMActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

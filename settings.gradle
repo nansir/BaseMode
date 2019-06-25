@@ -1,1 +1,1 @@
-include ':demo', ':basemvp'
+include ':demo', ':library_mvp', ':library_mvvm', ':library_retrofit'

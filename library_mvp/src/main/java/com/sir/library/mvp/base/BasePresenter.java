@@ -1,0 +1,75 @@
+package com.sir.library.mvp.base;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
+
+public class BasePresenter<V extends BaseView, M extends BaseModel> implements Presenter<V, M> {
+
+    protected Context mContext;
+
+    protected V mView;
+
+    protected M mModel;
+
+    protected CompositeSubscription mCompositeSubscription;
+
+    /**
+     * 添加一个订阅
+     */
+    protected void addSubscribe(Subscription subscription) {
+        if (mCompositeSubscription == null) {
+            mCompositeSubscription = new CompositeSubscription();
+        }
+        mCompositeSubscription.add(subscription);
+    }
+
+    @Override
+    public void attachView(V view) {
+        this.mView = view;
+    }
+
+    @Override
+    public void attachModel(M m) {
+        this.mModel = m;
+    }
+
+    @Override
+    public void detachView() {
+        this.mView = null;
+        unSubscribe();
+    }
+
+    //注销订阅
+    protected void unSubscribe() {
+        if (mCompositeSubscription != null) {
+            mCompositeSubscription.unsubscribe();
+        }
+    }
+
+    @Override
+    public void detachModel() {
+        this.mModel = null;
+    }
+
+    public M getModel() {
+        return mModel;
+    }
+
+    public V getView() {
+        return mView;
+    }
+
+    public boolean isViewBind() {
+        return mView != null;
+    }
+
+    public void startActivity(Class<? extends Activity> activity) {
+        Intent mIntent = new Intent();
+        mIntent.setClass(mContext, activity);
+        mContext.startActivity(mIntent);
+    }
+}
