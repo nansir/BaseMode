@@ -17,26 +17,6 @@ android {
 }
 
 dependencies {
-//    implementation libSupportAppcompat_v7
-//    implementation libSupportAppcompat_v4
-//    implementation libSupportDesign
-//    api 'com.sir.library:baseapp:1.4.1'
-//    //Retrofit2
-//    api 'com.squareup.retrofit2:retrofit:2.1.0'
-//    api 'com.squareup.retrofit2:converter-gson:2.1.0'
-//
-//    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
-//    implementation 'com.squareup.retrofit2:retrofit-adapters:2.1.0'
-//    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
-//
-//    //RxJava and RxAndroid
-//    implementation 'io.reactivex:rxjava:1.1.9'
-//    implementation 'io.reactivex:rxandroid:1.2.0'
-//
-//    //okhttp
-//    api 'com.squareup.okhttp3:parent:3.6.0'
-//    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     api 'com.sir.library:baseapp:1.4.1'
