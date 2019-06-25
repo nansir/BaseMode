@@ -37,11 +37,12 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
 
     @Override
     protected void dataObserver() {
-        LiveBus.getDefault().subscribe(MovieRepository.EVENT_KEY_LIVE, MovieResult.class).observe(this, new Observer<MovieResult>() {
-            @Override
-            public void onChanged(@Nullable MovieResult movieResult) {
-                setText(R.id.content, new Gson().toJson(movieResult));
-            }
-        });
+        LiveBus.getDefault().subscribe(MovieRepository.EVENT_KEY_LIVE, MovieResult.class)
+                .observe(this, new Observer<MovieResult>() {
+                    @Override
+                    public void onChanged(@Nullable MovieResult movieResult) {
+                        setText(R.id.content, new Gson().toJson(movieResult));
+                    }
+                });
     }
 }

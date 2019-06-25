@@ -20,7 +20,6 @@ import butterknife.OnClick;
 /**
  * MVP 模式
  * Created by zhuyinan on 2017/8/8.
- * Contact by 445181052@qq.com
  */
 public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> implements MovieContract.View {
 

@@ -30,7 +30,6 @@ public class HttpsUtils {
             TrustManager[] trustManagers = prepareTrustManager(certificates);
             KeyManager[] keyManagers = prepareKeyManager(bksFile, password);
             SSLContext sslContext = SSLContext.getInstance("TLS");
-
             sslContext.init(keyManagers, new TrustManager[]{new MyTrustManager(chooseTrustManager(trustManagers))}, new SecureRandom());
             return sslContext.getSocketFactory();
         } catch (NoSuchAlgorithmException e) {

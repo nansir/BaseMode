@@ -5,7 +5,6 @@ import static android.R.attr.data;
 /**
  * 约定服务器公共的json数据
  * Created by zhuyinan on 2017/3/28.
- * Contact by 445181052@qq.com
  */
 public class HttpDefaultResponse<T> {
 

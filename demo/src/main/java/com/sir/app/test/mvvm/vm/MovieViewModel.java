@@ -8,6 +8,7 @@ import com.sir.app.test.mvvm.model.source.MovieRepository;
 import com.sir.library.mvvm.base.BaseViewModel;
 
 /**
+ * 视图模型
  * Created by zhuyinan on 2019/6/24.
  */
 public class MovieViewModel extends BaseViewModel<MovieRepository> implements MovieContract {

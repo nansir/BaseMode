@@ -3,7 +3,6 @@ package com.sir.library.retrofit.exception;
 /**
  * 约定异常代码
  * Created by zhuyinan on 2017/9/12.
- * Contact by 445181052@qq.com
  */
 public class ErrorCode {
     /**

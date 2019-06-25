@@ -8,7 +8,6 @@ import com.sir.library.retrofit.exception.ResponseThrowable;
 
 /**
  * Created by zhuyinan on 2017/8/8.
- * Contact by 445181052@qq.com
  */
 public class MoviePresenter extends MovieContract.Presenter {
 

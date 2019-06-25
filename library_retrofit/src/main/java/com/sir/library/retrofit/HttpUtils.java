@@ -29,7 +29,7 @@ public class HttpUtils {
 
     //获得HttpUtils实例
     private static HttpUtils mInstance;
-    // 网络配置
+    //网络配置
     private static NetWorkConfiguration configuration;
     //OkHttpClient对象
     private OkHttpClient mOkHttpClient;
@@ -234,10 +234,10 @@ public class HttpUtils {
     /**
      * 设置是否打印网络日志
      *
-     * @param falg
+     * @param flag
      */
-    public HttpUtils setDBugLog(boolean falg) {
-        if (falg) {
+    public HttpUtils setDBugLog(boolean flag) {
+        if (flag) {
             mOkHttpClient = getOkHttpClient().newBuilder()
                     .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                     .build();

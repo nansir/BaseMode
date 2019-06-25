@@ -29,5 +29,9 @@ public abstract class RxSubscriber<T> extends ErrorSubscriber<T> {
         onSuccess(t);
     }
 
+    /**
+     * 请求成功
+     * @param t
+     */
     public abstract void onSuccess(T t);
 }

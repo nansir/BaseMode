@@ -9,7 +9,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 /**
  * 客户端
  * Created by zhuyinan on 2017/4/1.
- * Contact by 445181052@qq.com
  */
 public class RetrofitClient {
 

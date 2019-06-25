@@ -8,7 +8,6 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by zhuyinan on 2017/4/22.
- * Contact by 445181052@qq.com
  */
 public class DefaultTransformer<T> implements Observable.Transformer<HttpDefaultResponse<T>, T> {
 

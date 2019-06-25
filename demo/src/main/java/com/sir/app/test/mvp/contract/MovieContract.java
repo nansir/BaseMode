@@ -9,7 +9,6 @@ import rx.Observable;
 
 /**
  * Created by zhuyinan on 2017/8/8.
- * Contact by 445181052@qq.com
  */
 public interface MovieContract {
 

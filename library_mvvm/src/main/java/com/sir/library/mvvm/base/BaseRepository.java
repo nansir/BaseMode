@@ -16,8 +16,6 @@ public abstract class BaseRepository {
 
     public MutableLiveData<String> loadState;
 
-    private CompositeDisposable mCompositeDisposable;
-
     protected CompositeSubscription mCompositeSubscription;
 
     public BaseRepository() {
@@ -35,17 +33,6 @@ public abstract class BaseRepository {
         }
     }
 
-    /**
-     * 添加订阅
-     *
-     * @param disposable
-     */
-    protected void addDisposable(Disposable disposable) {
-        if (mCompositeDisposable == null) {
-            mCompositeDisposable = new CompositeDisposable();
-        }
-        mCompositeDisposable.add(disposable);
-    }
 
     /**
      * 添加一个订阅
@@ -61,8 +48,8 @@ public abstract class BaseRepository {
      * 解除订阅
      */
     public void unDisposable() {
-        if (mCompositeDisposable != null && mCompositeDisposable.isDisposed()) {
-            mCompositeDisposable.clear();
+        if (mCompositeSubscription != null && mCompositeSubscription.hasSubscriptions()) {
+            mCompositeSubscription.clear();
         }
     }
 
