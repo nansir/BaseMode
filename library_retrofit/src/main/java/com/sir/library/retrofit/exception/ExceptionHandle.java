@@ -38,14 +38,21 @@ public class ExceptionHandle {
             switch (httpException.code()) {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
+                    ex.message = "未经授权";
                 case NOT_FOUND:
+                    ex.message = "未找到";
                 case REQUEST_TIMEOUT:
+                    ex.message = "请求超时";
                 case GATEWAY_TIMEOUT:
+                    ex.message = "网关超时";
                 case INTERNAL_SERVER_ERROR:
+                    ex.message = "服务器内部错误";
                 case BAD_GATEWAY:
+                    ex.message = "网关错误";
                 case SERVICE_UNAVAILABLE:
+                    ex.message = "暂停服务";
                 default:
-                    ex.message = "无网络,请重试!";
+                    ex.message = "网络异常";
                     break;
             }
             return ex;
@@ -54,15 +61,13 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(resultException, resultException.code);
             ex.message = resultException.message;
             return ex;
-        } else if (e instanceof JsonParseException
-                || e instanceof JSONException
-                || e instanceof ParseException) {
+        } else if (e instanceof JsonParseException || e instanceof JSONException || e instanceof ParseException) {
             ex = new ResponseThrowable(e, ErrorCode.PARSE_ERROR);
             ex.message = "解析异常";
             return ex;
         } else if (e instanceof ConnectException || e instanceof UnknownHostException) {
-            ex = new ResponseThrowable(e, ErrorCode.NETWORD_ERROR);
-            ex.message = "无网络,请重试!";
+            ex = new ResponseThrowable(e, ErrorCode.NETWORK_ERROR);
+            ex.message = "网络异常";
             return ex;
         } else if (e instanceof javax.net.ssl.SSLHandshakeException) {
             ex = new ResponseThrowable(e, ErrorCode.SSL_ERROR);

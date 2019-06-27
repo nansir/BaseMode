@@ -32,8 +32,8 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
     }
 
     @Override
-    protected BaseView getViewImp() {
-        return this;
+    public void doBusiness(Context mContext) {
+
     }
 
     @Override
@@ -42,10 +42,9 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
     }
 
     @Override
-    public void doBusiness(Context mContext) {
-
+    protected BaseView getViewImp() {
+        return this;
     }
-
 
     @OnClick(R.id.request)
     public void onClickBtn(View view) {
@@ -60,13 +59,14 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
     @Override
     public void onSuccess(int code, Object object) {
         if (code == 100) {
-             MovieResult result = (MovieResult) object;
+            MovieResult result = (MovieResult) object;
             content.setText(new Gson().toJson(result));
         }
     }
 
     @Override
-    public void inProgress() {
-        content.setText("正在请求..");
+    public void onProgress(String pro) {
+        content.setText(pro);
     }
+
 }

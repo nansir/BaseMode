@@ -21,11 +21,16 @@
 
         <activity
             android:name=".mvp.view.MVPActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="MVP" />
 
         <activity
             android:name=".mvvm.view.MVVMActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="MVVM"/>
+
+        <activity
+            android:name=".mvc.vc.MVCActivity"
+            android:label="MVC" />
+
 
     </application>
 

@@ -37,7 +37,7 @@ public class ContractProxy {
      * determined
      */
     @SuppressWarnings("unchecked")
-    public static Class<BasePresenter> getPresnterClazz(final Class clazz, final int index) {
+    public static Class<BasePresenter> getPresenterClazz(final Class clazz, final int index) {
 
         //返回表示此 Class 所表示的实体（类、接口、基本类型或 void）的直接超类的 Type。
         Type genType = clazz.getGenericSuperclass();

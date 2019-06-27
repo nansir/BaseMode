@@ -1,10 +1,8 @@
 package com.sir.app.test.mvvm.model;
 
-
 import com.sir.app.test.api.MovieApi;
 import com.sir.app.test.common.MyApplication;
 import com.sir.library.mvvm.base.BaseRepository;
-import com.sir.library.mvvm.event.LiveBus;
 import com.sir.library.retrofit.HttpUtils;
 
 public class Repository extends BaseRepository {
@@ -18,19 +16,6 @@ public class Repository extends BaseRepository {
                 .builder(MovieApi.class);
     }
 
-    protected void postData(Object eventKey, Object t) {
-        postData(eventKey, null, t);
-    }
 
-    protected void postData(Object eventKey, String tag, Object t) {
-        LiveBus.getDefault().postEvent(eventKey, tag, t);
-    }
-
-    protected void showState(Object eventKey, String tag, String state) {
-        postData(eventKey, tag, state);
-    }
-    protected void showState(Object eventKey, String state) {
-        postData(eventKey, state);
-    }
 
 }

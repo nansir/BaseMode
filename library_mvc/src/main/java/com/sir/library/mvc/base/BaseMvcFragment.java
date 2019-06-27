@@ -1,33 +1,27 @@
-package com.sir.library.mvvm.base;
+package com.sir.library.mvc.base;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.sir.library.base.BaseFragmentV4;
-import com.sir.library.mvvm.ContractProxy;
-import com.sir.library.mvvm.event.LiveBus;
-import com.sir.library.mvvm.event.ResState;
+import com.sir.library.mvc.ContractProxy;
+import com.sir.library.mvc.event.ResState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by zhuyinan on 2019/6/21.
+ * MVC 模式的 Control
+ * Created by zhuyinan on 2019/6/27.
  */
-public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFragmentV4 {
+public abstract class BaseMvcFragment<M extends BaseModel> extends BaseFragmentV4 {
 
-    protected T mViewModel;
+    protected M mModel;
 
-    /**
-     * 状态页面监听
-     */
     protected Observer observer = new Observer<ResState>() {
         @Override
         public void onChanged(@Nullable ResState state) {
@@ -37,19 +31,25 @@ public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFrag
         }
     };
 
+
     private List<Object> eventKeys = new ArrayList<>();
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        mViewModel = VMProviders(this, (Class<T>) ContractProxy.getInstance(this, 0));
-        if (null != mViewModel) {
-            dataObserver();
-            mViewModel.mRepository.loadState.observe(this, observer);
-        }
+        intModelClazz();
+        dataObserver();
     }
 
-    protected <T extends ViewModel> T VMProviders(BaseFragmentV4 fragment, @NonNull Class<T> modelClass) {
-        return ViewModelProviders.of(fragment).get(modelClass);
+    protected void intModelClazz() {
+        Class clazz = ContractProxy.getInstance().getModelClazz(getClass(), 0);
+        try {
+            mModel = ((M) clazz.newInstance());
+            mModel.loadState.observe(this, observer);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (java.lang.InstantiationException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void dataObserver() {
@@ -68,7 +68,14 @@ public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFrag
             event = eventKey + tag;
         }
         eventKeys.add(event);
-        return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
+        return mModel.subscribe(eventKey, tag, tClass);
     }
 
+    @Override
+    public void onDestroyView() {
+        if (mModel != null) {
+            mModel.unDisposable();
+        }
+        super.onDestroyView();
+    }
 }

@@ -14,15 +14,20 @@ import rx.Observable;
  */
 public class MovieModel implements MovieContract.Model {
 
-    @Override
-    public Observable<MovieResult> getMovie(String city) {
-        return HttpUtils.getInstance(MyApplication.getContext())
+    protected MovieApi apiService;
+
+    public MovieModel() {
+        this.apiService = HttpUtils.getInstance(MyApplication.getContext())
                 .setLoadMemoryCache(false)//是否加载内存缓存数据
                 .setLoadDiskCache(true)//是否加载内存缓存数据
                 .getRetrofitClient()
                 .setBaseUrl("http://op.juhe.cn/onebox/")
-                .builder(MovieApi.class)
-                .getMovie("eff63ec0285b079f8fe418a13778a10d", city)
+                .builder(MovieApi.class);
+    }
+
+    @Override
+    public Observable<MovieResult> getMovie(String city) {
+        return apiService.getMovie("eff63ec0285b079f8fe418a13778a10d", city)
                 .compose(new MovieTransformer<MovieResult>());// 进行预处理;
     }
 }

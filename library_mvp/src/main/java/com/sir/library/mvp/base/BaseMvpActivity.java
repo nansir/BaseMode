@@ -30,7 +30,7 @@ public abstract class BaseMvpActivity<M extends BaseModel, P extends BasePresent
     }
 
     protected Class getPresenterClazz() {
-        return ContractProxy.getPresnterClazz(getClass(), 1);
+        return ContractProxy.getPresenterClazz(getClass(), 1);
     }
 
     private <T> T getPresenterImpl() {

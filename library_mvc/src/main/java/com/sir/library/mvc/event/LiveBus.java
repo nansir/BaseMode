@@ -1,4 +1,4 @@
-package com.sir.library.mvvm.event;
+package com.sir.library.mvc.event;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
@@ -46,7 +46,6 @@ public class LiveBus {
             LiveBusData liveBusData = mLiveBus.get(key);
             liveBusData.isFirstSubscribe = false;
         }
-
         return (MutableLiveData<T>) mLiveBus.get(key);
     }
 
@@ -58,6 +57,10 @@ public class LiveBus {
             mEventKey = (String) eventKey;
         }
         return mEventKey;
+    }
+
+    public <T> MutableLiveData<T> postEvent(Object eventKey, T value) {
+        return postEvent(eventKey, null, value);
     }
 
     public <T> MutableLiveData<T> postEvent(Object eventKey, String tag, T value) {

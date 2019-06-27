@@ -13,7 +13,7 @@ import rx.Observable;
 public interface MovieContract {
 
     interface View extends BaseView {
-        void inProgress();
+
     }
 
     interface Model extends BaseModel {

@@ -16,7 +16,7 @@ public class ErrorCode {
     /**
      * 网络错误
      */
-    public static final int NETWORD_ERROR = 1002;
+    public static final int NETWORK_ERROR = 1002;
     /**
      * 协议出错
      */

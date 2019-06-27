@@ -1,4 +1,4 @@
-package com.sir.app.test.mvvm.view;
+package com.sir.app.test.mvc.vc;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
@@ -7,18 +7,17 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.sir.app.test.R;
+import com.sir.app.test.mvc.model.MovieModel;
+
 import com.sir.app.test.mvvm.model.bean.MovieResult;
-import com.sir.app.test.mvvm.model.source.MovieRepository;
-import com.sir.app.test.mvvm.vm.MovieViewModel;
-import com.sir.library.mvvm.base.BaseMVVMActivity;
-import com.sir.library.mvvm.event.LiveBus;
+import com.sir.library.mvc.base.BaseMvcActivity;
 
 import butterknife.OnClick;
 
 /**
- * Created by zhuyinan on 2019/6/24.
+ * Created by zhuyinan on 2019/6/27.
  */
-public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
+public class MVCActivity extends BaseMvcActivity<MovieModel> {
 
     @Override
     public int bindLayout() {
@@ -32,12 +31,12 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
 
     @OnClick(R.id.request)
     public void onClickBtn(View view) {
-        mViewModel.getMovie("北京");
+        mModel.getMovie("深圳");
     }
 
     @Override
     protected void dataObserver() {
-        mViewModel.subscribe(MovieRepository.EVENT_KEY_LIVE, MovieResult.class)
+        mModel.subscribe(mModel.EVENT_KEY_LIVE, MovieResult.class)
                 .observe(this, new Observer<MovieResult>() {
                     @Override
                     public void onChanged(@Nullable MovieResult result) {

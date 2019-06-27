@@ -12,6 +12,12 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/mvc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MVC" />
+
+        <Button
             android:id="@+id/mvp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,5 +47,11 @@
         android:layout_margin="10dp"
         android:scrollbars="vertical"
         android:singleLine="false" />
+
+
+    <com.sir.app.test.StampView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

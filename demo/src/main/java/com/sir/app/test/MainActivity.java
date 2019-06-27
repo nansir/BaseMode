@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.sir.app.test.api.MovieApi;
+import com.sir.app.test.mvc.vc.MVCActivity;
 import com.sir.app.test.mvp.view.MVPActivity;
 import com.sir.app.test.mvvm.model.bean.MovieResponse;
 import com.sir.app.test.mvvm.model.bean.MovieResult;
@@ -29,7 +30,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView(Bundle savedInstanceState) {
-
+        setSwipeBackEnable(false);
     }
 
     @Override
@@ -37,9 +38,12 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.mvp, R.id.mvvm, R.id.request})
+    @OnClick({R.id.mvc, R.id.mvp, R.id.mvvm, R.id.request})
     public void onClickBtn(View view) {
         switch (view.getId()) {
+            case R.id.mvc:
+                mOperation.forward(MVCActivity.class);
+                break;
             case R.id.mvp:
                 mOperation.forward(MVPActivity.class);
                 break;

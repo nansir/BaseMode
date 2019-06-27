@@ -1,13 +1,12 @@
 package com.sir.library.mvvm;
 
-import android.support.annotation.NonNull;
-
 import java.lang.reflect.ParameterizedType;
 
-public class TUtil {
+public class ContractProxy {
 
     /**
      * 实例
+     *
      * @param object
      * @param i
      * @param <T>
@@ -33,12 +32,5 @@ public class TUtil {
             return (T) ((ParameterizedType) object.getClass().getGenericSuperclass()).getActualTypeArguments()[i];
         }
         return null;
-    }
-
-    public static @NonNull <T> T checkNotNull(final T reference) {
-        if (reference == null) {
-            throw new NullPointerException();
-        }
-        return reference;
     }
 }
