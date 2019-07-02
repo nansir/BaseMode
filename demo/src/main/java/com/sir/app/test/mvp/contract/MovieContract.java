@@ -1,11 +1,11 @@
 package com.sir.app.test.mvp.contract;
 
-import com.sir.app.test.mvvm.model.bean.MovieResult;
+import com.sir.app.test.entity.MovieResult;
 import com.sir.library.mvp.base.BaseModel;
 import com.sir.library.mvp.base.BasePresenter;
 import com.sir.library.mvp.base.BaseView;
 
-import rx.Observable;
+import io.reactivex.Observable;
 
 /**
  * Created by zhuyinan on 2017/8/8.

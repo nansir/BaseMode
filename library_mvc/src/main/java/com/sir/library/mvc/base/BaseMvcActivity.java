@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.sir.library.base.BaseActivity;
 import com.sir.library.mvc.ContractProxy;
-import com.sir.library.mvc.event.ResState;
+import com.sir.library.retrofit.event.ResState;
 
 /**
  * MVC 模式的 Control

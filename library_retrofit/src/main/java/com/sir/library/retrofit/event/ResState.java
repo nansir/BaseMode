@@ -1,4 +1,4 @@
-package com.sir.library.mvvm.event;
+package com.sir.library.retrofit.event;
 
 /**
  * Created by zhuyinan on 2019/6/27.

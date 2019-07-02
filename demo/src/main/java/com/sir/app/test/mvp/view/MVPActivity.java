@@ -10,7 +10,7 @@ import com.sir.app.test.R;
 import com.sir.app.test.mvp.contract.MovieContract;
 import com.sir.app.test.mvp.model.MovieModel;
 import com.sir.app.test.mvp.presenter.MoviePresenter;
-import com.sir.app.test.mvvm.model.bean.MovieResult;
+import com.sir.app.test.entity.MovieResult;
 import com.sir.library.mvp.base.BaseMvpActivity;
 import com.sir.library.mvp.base.BaseView;
 
@@ -65,7 +65,7 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
     }
 
     @Override
-    public void onProgress(String pro) {
+    public void onLoading(String pro) {
         content.setText(pro);
     }
 

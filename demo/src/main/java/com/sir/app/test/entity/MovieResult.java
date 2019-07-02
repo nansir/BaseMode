@@ -1,4 +1,4 @@
-package com.sir.app.test.mvc.model.bean;
+package com.sir.app.test.entity;
 
 import java.util.ArrayList;
 import java.util.List;

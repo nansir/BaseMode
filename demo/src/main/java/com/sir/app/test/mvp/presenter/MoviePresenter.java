@@ -1,9 +1,10 @@
 package com.sir.app.test.mvp.presenter;
 
+import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvp.contract.MovieContract;
-import com.sir.app.test.mvvm.model.bean.MovieResult;
-import com.sir.library.retrofit.callback.RxSubscriber;
 import com.sir.library.retrofit.exception.ResponseThrowable;
+
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by zhuyinan on 2017/8/8.
@@ -12,16 +13,17 @@ public class MoviePresenter extends MovieContract.Presenter {
 
     @Override
     public void getMovie(String city) {
-      mView.onProgress("进行中");
-        addSubscribe(mModel.getMovie(city).subscribe(new RxSubscriber<MovieResult>() {
+        mView.onLoading("进行中");
+        addSubscribe(mModel.getMovie(city).subscribe(new Consumer<MovieResult>() {
             @Override
-            public void onSuccess(MovieResult movieResult) {
+            public void accept(MovieResult movieResult) {
                 mView.onSuccess(100, movieResult);
             }
-
+        }, new Consumer<Throwable>() {
             @Override
-            protected void onError(ResponseThrowable ex) {
-                mView.onFailure(100, ex.message);
+            public void accept(Throwable throwable) {
+                ResponseThrowable responseThrowable = (ResponseThrowable) throwable;
+                mView.onFailure(100, responseThrowable.message);
             }
         }));
     }

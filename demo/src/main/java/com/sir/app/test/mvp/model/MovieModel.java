@@ -2,12 +2,13 @@ package com.sir.app.test.mvp.model;
 
 import com.sir.app.test.api.MovieApi;
 import com.sir.app.test.common.MyApplication;
+import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvp.contract.MovieContract;
-import com.sir.app.test.mvvm.model.bean.MovieResult;
-import com.sir.app.test.transformer.MovieTransformer;
 import com.sir.library.retrofit.HttpUtils;
+import com.sir.library.retrofit.transformer.ComposeTransformer;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 /**
  * Created by zhuyinan on 2017/8/8.
@@ -27,7 +28,7 @@ public class MovieModel implements MovieContract.Model {
 
     @Override
     public Observable<MovieResult> getMovie(String city) {
-        return apiService.getMovie("eff63ec0285b079f8fe418a13778a10d", city)
-                .compose(new MovieTransformer<MovieResult>());// 进行预处理;
+        return apiService.getMovieB("eff63ec0285b079f8fe418a13778a10d", city)
+                .compose(ComposeTransformer.<MovieResult>Observable());
     }
 }

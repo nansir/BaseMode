@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import com.sir.library.base.BaseFragmentV4;
 import com.sir.library.mvvm.ContractProxy;
-import com.sir.library.mvvm.event.LiveBus;
-import com.sir.library.mvvm.event.ResState;
+import com.sir.library.retrofit.event.LiveBus;
+import com.sir.library.retrofit.event.ResState;
 
 import java.util.ArrayList;
 import java.util.List;

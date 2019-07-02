@@ -10,7 +10,7 @@ import org.json.JSONException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 /**
  * 异常处理(自定义常码)

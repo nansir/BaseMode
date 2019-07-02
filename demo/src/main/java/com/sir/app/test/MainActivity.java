@@ -6,22 +6,25 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.sir.app.test.api.MovieApi;
+import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvc.vc.MVCActivity;
 import com.sir.app.test.mvp.view.MVPActivity;
-import com.sir.app.test.mvvm.model.bean.MovieResponse;
-import com.sir.app.test.mvvm.model.bean.MovieResult;
 import com.sir.app.test.mvvm.view.MVVMActivity;
 import com.sir.library.base.BaseActivity;
 import com.sir.library.retrofit.HttpUtils;
-import com.sir.library.retrofit.callback.RxSubscriber;
+import com.sir.library.retrofit.callback.RxCallback;
+import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 
+import javax.xml.transform.Transformer;
+
 import butterknife.OnClick;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+
 
 public class MainActivity extends BaseActivity {
-
 
     @Override
     public int bindLayout() {
@@ -50,6 +53,9 @@ public class MainActivity extends BaseActivity {
             case R.id.mvvm:
                 mOperation.forward(MVVMActivity.class);
                 break;
+            case R.id.download:
+
+                break;
             case R.id.request:
                 setText(R.id.message, "开始请求");
                 HttpUtils.getInstance(this)
@@ -58,23 +64,34 @@ public class MainActivity extends BaseActivity {
                         .getRetrofitClient()
                         .setBaseUrl("http://op.juhe.cn/onebox/")
                         .builder(MovieApi.class)
-                        .getMovie("eff63ec0285b079f8fe418a13778a10d", "杭州")
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new RxSubscriber<MovieResponse<MovieResult>>() {
+                        .getMovieC("eff63ec0285079f8fe418a13778a10d", "杭州")
+                        .enqueue(new RxCallback<MovieResult>() {
                             @Override
-                            protected void onError(ResponseThrowable ex) {
-                                setText(R.id.message, ex.message);
+                            protected void onSuccess(MovieResult movieResult) {
+                                setText(R.id.message, new Gson().toJson(movieResult));
                             }
 
                             @Override
-                            public void onSuccess(MovieResponse<MovieResult> response) {
-                                MovieResult result = response.getResult();
-                                setText(R.id.message, new Gson().toJson(result));
+                            protected void onFailure(ResponseThrowable ex) {
+                                setText(R.id.message, ex.message);
                             }
                         });
                 break;
         }
+
+
     }
+
+    //下载
+    public void load(String downUrl, final ProgressCallBack callBack) {
+//        HttpUtils.getInstance(this)
+//                .getRetrofitClient()
+//                .setBaseUrl("http://op.juhe.cn/onebox/")
+//                .builder(MovieApi.class)
+//                .download(downUrl)
+//                .asObservable()
+
+    }
+
 
 }

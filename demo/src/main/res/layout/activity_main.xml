@@ -30,6 +30,14 @@
             android:text="MVVM" />
 
         <Button
+            android:id="@+id/download"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Download"
+            android:textAllCaps="false" />
+
+
+        <Button
             android:id="@+id/request"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,11 +55,5 @@
         android:layout_margin="10dp"
         android:scrollbars="vertical"
         android:singleLine="false" />
-
-
-    <com.sir.app.test.StampView
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

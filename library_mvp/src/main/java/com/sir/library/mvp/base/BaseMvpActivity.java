@@ -38,7 +38,7 @@ public abstract class BaseMvpActivity<M extends BaseModel, P extends BasePresent
     }
 
     /**
-     *  结合Model and View
+     * 结合Model and View
      */
     private void bindVM() {
         if (mPresenter != null && !mPresenter.isViewBind() && getModelClazz() != null && getViewImp() != null) {
@@ -59,6 +59,7 @@ public abstract class BaseMvpActivity<M extends BaseModel, P extends BasePresent
         if (mPresenter != null) {
             ContractProxy.getInstance().unbindView(getViewImp(), mPresenter);
             ContractProxy.getInstance().unbindModel(getModelClazz(), mPresenter);
+            ContractProxy.getInstance().unbindPresenter(getViewImp(), mPresenter);
             mPresenter = null;
         }
         super.onDestroy();

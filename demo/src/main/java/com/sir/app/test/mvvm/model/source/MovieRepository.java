@@ -1,11 +1,16 @@
 package com.sir.app.test.mvvm.model.source;
 
+import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvvm.contract.MovieContract;
 import com.sir.app.test.mvvm.model.Repository;
-import com.sir.app.test.mvvm.model.bean.MovieResult;
-import com.sir.app.test.transformer.MovieTransformer;
-import com.sir.library.retrofit.callback.RxSubscriber;
+import com.sir.library.retrofit.download.DownLoadSubscriber;
+import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ResponseThrowable;
+import com.sir.library.retrofit.transformer.ComposeTransformer;
+
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * Created by zhuyinan on 2019/6/24.
@@ -22,21 +27,35 @@ public class MovieRepository extends Repository implements MovieContract {
 
     @Override
     public void getMovie(String city) {
-        addSubscribe(apiService.getMovie("eff63ec0285b079f8fe418a13778a10d", city)
-                .compose(new MovieTransformer<MovieResult>())//进行预处理
-                .subscribe(new RxSubscriber<MovieResult>() {
-
+        postState(ON_LOADING, "开始加工....");
+        addSubscribe(apiService.getMovieB("eff63ec0285b079f8fe418a13778a10d", city)
+                .compose(ComposeTransformer.<MovieResult>Observable())
+                .subscribe(new Consumer<MovieResult>() {
                     @Override
-                    public void onSuccess(MovieResult movieResult) {
+                    public void accept(MovieResult movieResult) {
                         postData(EVENT_KEY_LIVE, movieResult);
-                        postState(200, "onSuccess");
+                        postState(ON_SUCCESS);
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    protected void onError(ResponseThrowable ex) {
-                        postState(ex.code, ex.message);
+                    public void accept(Throwable throwable) {
+                        ResponseThrowable ex = (ResponseThrowable) throwable;
+                        postState(ON_FAILURE, ex.message);
                     }
-
                 }));
+    }
+
+    @Override
+    public void download(String url, final ProgressCallBack callBack) {
+        addSubscribe(apiService.download(url)
+                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
+                .observeOn(Schedulers.io()) //指定线程保存文件
+                .doOnNext(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody responseBody) {
+                        callBack.saveFile(responseBody);
+                    }
+                })
+                .subscribeWith(new DownLoadSubscriber<ResponseBody>(callBack)));
     }
 }

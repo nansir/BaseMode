@@ -2,13 +2,13 @@ package com.sir.library.mvvm.base;
 
 import android.arch.lifecycle.MutableLiveData;
 
-import com.sir.library.mvvm.event.LiveBus;
-import com.sir.library.mvvm.event.ResState;
+import com.sir.library.retrofit.event.LiveBus;
+import com.sir.library.retrofit.event.ResState;
 
 import java.util.UUID;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 知识库
@@ -16,9 +16,13 @@ import rx.subscriptions.CompositeSubscription;
  */
 public abstract class BaseRepository {
 
+    public static final int ON_LOADING = 0x11;
+    public static final int ON_SUCCESS = 0x22;
+    public static final int ON_FAILURE = 0x33;
+
     public MutableLiveData<ResState> loadState;
 
-    protected CompositeSubscription mCompositeSubscription;
+    protected CompositeDisposable mCompositeDisposable;
 
     public BaseRepository() {
         this.loadState = new MutableLiveData<>();
@@ -31,6 +35,15 @@ public abstract class BaseRepository {
      */
     protected static String getEventKey() {
         return UUID.randomUUID().toString();
+    }
+
+    /**
+     * 发布状态
+     *
+     * @param state
+     */
+    protected void postState(int state) {
+        postState(state, null);
     }
 
     /**
@@ -67,19 +80,19 @@ public abstract class BaseRepository {
     /**
      * 添加一个订阅
      */
-    protected void addSubscribe(Subscription subscription) {
-        if (mCompositeSubscription == null) {
-            mCompositeSubscription = new CompositeSubscription();
+    protected void addSubscribe(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(disposable);
     }
 
     /**
      * 解除订阅
      */
     public void unDisposable() {
-        if (mCompositeSubscription != null) {
-            mCompositeSubscription.unsubscribe();
+        if (mCompositeDisposable != null && mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.clear();
         }
     }
 }

@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import com.sir.app.test.R;
 import com.sir.app.test.mvc.model.MovieModel;
 
-import com.sir.app.test.mvvm.model.bean.MovieResult;
+import com.sir.app.test.entity.MovieResult;
 import com.sir.library.mvc.base.BaseMvcActivity;
 
 import butterknife.OnClick;

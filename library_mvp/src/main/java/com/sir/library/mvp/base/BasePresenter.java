@@ -4,8 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
-import rx.Subscription;
-import rx.subscriptions.CompositeSubscription;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+
 
 public class BasePresenter<V extends BaseView, M extends BaseModel> implements Presenter<V, M> {
 
@@ -15,16 +16,16 @@ public class BasePresenter<V extends BaseView, M extends BaseModel> implements P
 
     protected M mModel;
 
-    protected CompositeSubscription mCompositeSubscription;
+    protected CompositeDisposable mCompositeDisposable;
 
     /**
      * 添加一个订阅
      */
-    protected void addSubscribe(Subscription subscription) {
-        if (mCompositeSubscription == null) {
-            mCompositeSubscription = new CompositeSubscription();
+    protected void addSubscribe(Disposable disposable) {
+        if (mCompositeDisposable == null) {
+            mCompositeDisposable = new CompositeDisposable();
         }
-        mCompositeSubscription.add(subscription);
+        mCompositeDisposable.add(disposable);
     }
 
     @Override
@@ -40,13 +41,13 @@ public class BasePresenter<V extends BaseView, M extends BaseModel> implements P
     @Override
     public void detachView() {
         this.mView = null;
-        unSubscribe();
+        unDisposable();
     }
 
     //注销订阅
-    protected void unSubscribe() {
-        if (mCompositeSubscription != null) {
-            mCompositeSubscription.unsubscribe();
+    public void unDisposable() {
+        if (mCompositeDisposable != null && mCompositeDisposable.isDisposed()) {
+            mCompositeDisposable.clear();
         }
     }
 

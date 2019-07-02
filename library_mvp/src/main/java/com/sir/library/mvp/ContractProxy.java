@@ -156,6 +156,7 @@ public class ContractProxy {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+
         if (model != presenter.getModel()) {
             if (presenter.getModel() != null) {
                 presenter.detachModel();
@@ -166,20 +167,21 @@ public class ContractProxy {
     }
 
     //解除绑定 移除map
-    public void unbindPresenter(Class clzz, BaseView var1) {
-        if (mObjects.containsKey(clzz)) {
-            BasePresenter presenter = null;
-            try {
-                presenter = ((BasePresenter) clzz.newInstance());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-            if (var1 != presenter.getView()) {
-                if (presenter.getView() != null)
+    public void unbindPresenter(BaseView var1, BasePresenter presenter) {
+        if (mObjects.containsKey(presenter)) {
+//            BasePresenter presenter = null;
+//            try {
+//                presenter = ((BasePresenter) clzz.newInstance());
+//            } catch (InstantiationException e) {
+//                e.printStackTrace();
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+            if (presenter != null && var1 != presenter.getView()) {
+                if (presenter.getView() != null) {
                     presenter.detachView();
-                mObjects.remove(clzz);
+                }
+                mObjects.remove(presenter);
             }
         }
     }
@@ -187,12 +189,13 @@ public class ContractProxy {
     //解除绑定
     public void unbindView(BaseView view, BasePresenter presenter) {
         if (view != presenter.getView()) {
-            if (presenter.getView() != null)
+            if (presenter.getView() != null) {
                 presenter.detachView();
+            }
         }
     }
 
-    // 解除绑定
+    //解除绑定
     public void unbindModel(Class clzz, BasePresenter presenter) {
         if (mObjects.containsKey(clzz)) {
             BaseModel model = null;

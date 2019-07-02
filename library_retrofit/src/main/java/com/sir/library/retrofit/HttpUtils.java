@@ -5,7 +5,10 @@ import android.util.Log;
 
 import com.sir.library.retrofit.config.NetWorkConfiguration;
 import com.sir.library.retrofit.cookie.SimpleCookieJar;
+import com.sir.library.retrofit.download.DownLoadSubscriber;
+import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.interceptor.LogInterceptor;
+import com.sir.library.retrofit.interceptor.ProgressInterceptor;
 import com.sir.library.retrofit.request.RetrofitClient;
 import com.sir.library.retrofit.utils.NetworkUtil;
 
@@ -13,11 +16,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.CacheControl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
@@ -112,6 +119,7 @@ public class HttpUtils {
             mOkHttpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(interceptor)
                     .addInterceptor(new LogInterceptor())
+                    .addInterceptor(new ProgressInterceptor())
                     .connectTimeout(configuration.getConnectTimeOut(), TimeUnit.SECONDS)
                     .connectionPool(configuration.getConnectionPool())
                     .retryOnConnectionFailure(true)
@@ -256,4 +264,8 @@ public class HttpUtils {
                 .build();
         return this;
     }
+
+
+
+
 }

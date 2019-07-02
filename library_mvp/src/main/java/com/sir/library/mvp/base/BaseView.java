@@ -6,7 +6,7 @@ package com.sir.library.mvp.base;
  */
 public interface BaseView {
 
-    void onProgress(String pro);
+    void onLoading(String what);
 
     void onSuccess(int code, Object object);
 

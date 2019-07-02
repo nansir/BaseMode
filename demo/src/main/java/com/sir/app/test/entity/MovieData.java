@@ -1,4 +1,4 @@
-package com.sir.app.test.mvvm.model.bean;
+package com.sir.app.test.entity;
 
 /**
  * Created by zhuyinan on 2019/6/25.

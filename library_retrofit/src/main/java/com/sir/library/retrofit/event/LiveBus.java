@@ -1,4 +1,4 @@
-package com.sir.library.mvc.event;
+package com.sir.library.retrofit.event;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;

@@ -1,10 +1,12 @@
 package com.sir.app.test.api;
 
-import com.sir.app.test.mvvm.model.bean.MovieResponse;
-import com.sir.app.test.mvvm.model.bean.MovieResult;
+import com.sir.app.test.entity.MovieResult;
+import com.sir.library.retrofit.response.HttpResponse;
 
 import java.util.Map;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -15,7 +17,7 @@ import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
 import retrofit2.http.Url;
-import rx.Observable;
+
 
 /**
  * Created by zhuyinan on 2019/6/25.
@@ -23,7 +25,14 @@ import rx.Observable;
 public interface MovieApi {
 
     @GET("movie/pmovie")
-    Observable<MovieResponse<MovieResult>> getMovie(@Query("key") String key, @Query("city") String city);
+    Flowable<HttpResponse<MovieResult>> getMovieA(@Query("key") String key, @Query("city") String city);
+
+    @GET("movie/pmovie")
+    Observable<HttpResponse<MovieResult>> getMovieB(@Query("key") String key, @Query("city") String city);
+
+    @GET("movie/pmovie")
+    Call<HttpResponse<MovieResult>> getMovieC(@Query("key") String key, @Query("city") String city);
+
 
     /**
      * 上传文件请求
@@ -44,8 +53,7 @@ public interface MovieApi {
      */
     @Streaming
     @GET
-    Call<ResponseBody> download(@Url String url);
-
+    Observable<ResponseBody> download(@Url String url);
 
 }
 

@@ -4,10 +4,10 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.sir.library.mvvm.ContractProxy;
-import com.sir.library.mvvm.event.LiveBus;
+import com.sir.library.retrofit.event.LiveBus;
+
 
 /**
  * 基本视图模型

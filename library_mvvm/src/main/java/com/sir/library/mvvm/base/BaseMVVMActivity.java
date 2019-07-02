@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.sir.library.base.BaseActivity;
 import com.sir.library.mvvm.ContractProxy;
-import com.sir.library.mvvm.event.ResState;
+import com.sir.library.retrofit.event.ResState;
 
 /**
  * Created by zhuyinan on 2019/6/21.
