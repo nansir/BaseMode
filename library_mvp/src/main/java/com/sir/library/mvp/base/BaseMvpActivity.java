@@ -15,11 +15,8 @@ public abstract class BaseMvpActivity<M extends BaseModel, P extends BasePresent
 
     @Override
     public void initView(Bundle savedInstanceState) {
-        initMvpView(savedInstanceState);
         bindMVP();
     }
-
-    public abstract void initMvpView(final Bundle savedInstanceState);
 
     private void bindMVP() {
         if (getPresenterClazz() != null) {

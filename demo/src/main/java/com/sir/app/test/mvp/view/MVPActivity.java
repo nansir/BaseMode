@@ -1,20 +1,17 @@
 package com.sir.app.test.mvp.view;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.sir.app.test.R;
+import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvp.contract.MovieContract;
 import com.sir.app.test.mvp.model.MovieModel;
 import com.sir.app.test.mvp.presenter.MoviePresenter;
-import com.sir.app.test.entity.MovieResult;
 import com.sir.library.mvp.base.BaseMvpActivity;
 import com.sir.library.mvp.base.BaseView;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
@@ -23,9 +20,6 @@ import butterknife.OnClick;
  */
 public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> implements MovieContract.View {
 
-    @BindView(R.id.content)
-    TextView content;
-
     @Override
     public int bindLayout() {
         return R.layout.activity_model;
@@ -33,11 +27,6 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
 
     @Override
     public void doBusiness(Context mContext) {
-
-    }
-
-    @Override
-    public void initMvpView(Bundle savedInstanceState) {
 
     }
 
@@ -52,21 +41,20 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
     }
 
     @Override
-    public void onFailure(int code, String msg) {
-        content.setText(msg);
+    public void onLoading(String pro) {
+        setText(R.id.message, pro);
     }
 
     @Override
     public void onSuccess(int code, Object object) {
         if (code == 100) {
             MovieResult result = (MovieResult) object;
-            content.setText(new Gson().toJson(result));
+            setText(R.id.message, new Gson().toJson(result));
         }
     }
 
     @Override
-    public void onLoading(String pro) {
-        content.setText(pro);
+    public void onFailure(int code, String msg) {
+        setText(R.id.message, msg);
     }
-
 }

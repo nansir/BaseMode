@@ -2,9 +2,10 @@ package com.sir.app.test.mvvm.view;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.sir.app.test.R;
@@ -13,7 +14,12 @@ import com.sir.app.test.mvvm.model.source.MovieRepository;
 import com.sir.app.test.mvvm.vm.MovieViewModel;
 import com.sir.library.mvvm.base.BaseMVVMActivity;
 import com.sir.library.retrofit.download.ProgressCallBack;
+import com.sir.library.retrofit.exception.ExceptionHandle;
+import com.sir.library.retrofit.exception.ResponseThrowable;
 
+import java.math.BigDecimal;
+
+import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
 
@@ -25,6 +31,9 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
     String destFileDir;
     String destFileName;
 
+    @BindView(R.id.progress)
+    ProgressBar progressBar;
+
     @Override
     public int bindLayout() {
         return R.layout.activity_model;
@@ -32,7 +41,7 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
 
     @Override
     public void doBusiness(Context mContext) {
-        destFileDir = getApplication().getCacheDir().getPath();
+        destFileDir = Environment.getExternalStorageDirectory().getPath();
         destFileName = System.currentTimeMillis() + ".apk";
     }
 
@@ -43,23 +52,27 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
                 mViewModel.getMovie("北京");
                 break;
             case R.id.download:
-                setText(R.id.content, "开始下载");
+                setText(R.id.message, "开始下载");
                 mViewModel.download("http://gdown.baidu.com/data/wisegame/a2cd8828b227b9f9/neihanduanzi_692.apk", new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
                     @Override
-                    public void progress(long progress, long total) {
-                        Log.e("TAG", progress + "===" + total);
+                    public void progress(long total, long progress, String tag) {
+                        progressBar.setMax((int) total);
+                        progressBar.setProgress((int) progress);
+                        int percent = (int) ((new BigDecimal((float) progress / total).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) * 100);
+                        setText(R.id.message, "已经下载：" + percent + "%");
                     }
 
                     @Override
                     public void onSuccess(ResponseBody responseBody) {
-                        setText(R.id.content, "成功");
+                        setText(R.id.message, "成功");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        setText(R.id.content, "onError");
+                        ResponseThrowable throwable = ExceptionHandle.handleException(e);
+                        setText(R.id.message, throwable.message);
                     }
-                }.subscribeLoadProgress(this));
+                });
                 break;
         }
     }
@@ -71,7 +84,7 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
                 .observe(this, new Observer<MovieResult>() {
                     @Override
                     public void onChanged(@Nullable MovieResult result) {
-                        setText(R.id.content, new Gson().toJson(result));
+                        setText(R.id.message, new Gson().toJson(result));
                     }
                 });
     }

@@ -9,14 +9,9 @@ public class Repository extends BaseRepository {
 
     protected MovieApi apiService;
 
-
-
-
-
-
-
     public Repository() {
-        this.apiService = HttpUtils.getInstance(MyApplication.getContext())
+        this.apiService =
+                HttpUtils.getInstance(MyApplication.getContext())
                 .getRetrofitClient()
                 .setBaseUrl("http://op.juhe.cn/onebox/")
                 .builder(MovieApi.class);

@@ -7,6 +7,7 @@ import com.sir.app.test.mvvm.contract.MovieContract;
 import com.sir.library.mvc.base.BaseModel;
 import com.sir.library.retrofit.HttpUtils;
 import com.sir.library.retrofit.callback.RxSubscriber;
+import com.sir.library.retrofit.download.DownLoadManager;
 import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
@@ -50,6 +51,6 @@ public class MovieModel extends BaseModel implements MovieContract {
 
     @Override
     public void download(String url, ProgressCallBack callBack) {
-
+        DownLoadManager.getInstance().downLoad(url, callBack);
     }
 }

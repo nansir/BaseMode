@@ -7,6 +7,10 @@ import java.io.IOException;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
+/**
+ * 进度截器
+ * Created by zhuyinan on 2018/3/28.
+ */
 public class ProgressInterceptor implements Interceptor {
 
     @Override

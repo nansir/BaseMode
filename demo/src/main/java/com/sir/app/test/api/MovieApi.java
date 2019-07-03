@@ -32,28 +32,5 @@ public interface MovieApi {
 
     @GET("movie/pmovie")
     Call<HttpResponse<MovieResult>> getMovieC(@Query("key") String key, @Query("city") String city);
-
-
-    /**
-     * 上传文件请求
-     *
-     * @param url      URL路径
-     * @param paramMap 请求参数
-     * @return
-     */
-    @Multipart
-    @POST
-    Call<ResponseBody> upload(@Url String url, @PartMap Map<String, RequestBody> paramMap);
-
-    /**
-     * 下载文件get请求
-     *
-     * @param url 链接地址
-     * @return
-     */
-    @Streaming
-    @GET
-    Observable<ResponseBody> download(@Url String url);
-
 }
 

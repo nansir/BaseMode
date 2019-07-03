@@ -12,6 +12,10 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 
+/**
+ * 进度响应
+ * Created by zhuyinan on 2018/3/28.
+ */
 public class ProgressResponse extends ResponseBody {
 
     private ResponseBody responseBody;
@@ -48,17 +52,15 @@ public class ProgressResponse extends ResponseBody {
     }
 
     private Source source(Source source) {
-
         return new ForwardingSource(source) {
-
-            long bytesRead = 0;
+            long bytesLoaded = 0;
 
             @Override
             public long read(Buffer sink, long byteCount) throws IOException {
                 long bytesRead = super.read(sink, byteCount);
-                this.bytesRead += bytesRead == -1 ? 0 : bytesRead;
+                bytesLoaded += bytesRead == -1 ? 0 : bytesRead;
                 //使用RxBus的方式，实时发送当前已读取(上传/下载)的字节数据
-                LiveBus.getDefault().postEvent("eventKey", new DownLoadStateBean(contentLength(), this.bytesRead, tag));
+                LiveBus.getDefault().postEvent(ProgressCallBack.LIVE_PROGRESS, new DownLoadStateBean(contentLength(), bytesLoaded, tag));
                 return bytesRead;
             }
         };

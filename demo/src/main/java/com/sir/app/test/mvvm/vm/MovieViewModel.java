@@ -25,6 +25,6 @@ public class MovieViewModel extends BaseViewModel<MovieRepository> implements Mo
 
     @Override
     public void download(String url, ProgressCallBack callBack) {
-
+        mRepository.download(url, callBack);
     }
 }

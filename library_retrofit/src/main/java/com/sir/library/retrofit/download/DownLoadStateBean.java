@@ -5,6 +5,10 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 
+/**
+ * 下载状态
+ * Created by zhuyinan on 2018/3/28.
+ */
 public class DownLoadStateBean implements Serializable, Parcelable {
 
     //文件总大小

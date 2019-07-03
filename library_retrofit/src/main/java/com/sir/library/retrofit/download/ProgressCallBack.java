@@ -1,9 +1,7 @@
 package com.sir.library.retrofit.download;
 
-import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.sir.library.retrofit.event.LiveBus;
 
@@ -12,38 +10,43 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 
 import okhttp3.ResponseBody;
 
+/**
+ * 下载进度
+ * Created by zhuyinan on 2018/3/28.
+ */
 public abstract class ProgressCallBack<T> {
 
+    public static String LIVE_PROGRESS = UUID.randomUUID().toString();
+
     //本地文件存放路径
-    private String destFileDir;
+    private String fileDir;
     //文件名
-    private String destFileName;
+    private String fileName;
 
     public ProgressCallBack(String destFileDir, String destFileName) {
-        this.destFileDir = destFileDir;
-        this.destFileName = destFileName;
+        this.fileDir = destFileDir;
+        this.fileName = destFileName;
+        subscribeLoadProgress();
     }
 
     /**
      * 订阅加载的进度条
      */
-    public ProgressCallBack<T> subscribeLoadProgress(LifecycleOwner owner) {
-        LiveBus.getDefault().subscribe("eventKey", DownLoadStateBean.class)
-                .observe(owner, new Observer<DownLoadStateBean>() {
+    public void subscribeLoadProgress() {
+        LiveBus.getDefault().subscribe(LIVE_PROGRESS, DownLoadStateBean.class)
+                .observeForever(new Observer<DownLoadStateBean>() {
                     @Override
                     public void onChanged(@Nullable DownLoadStateBean downLoadStateBean) {
-                        progress(downLoadStateBean.getBytesLoaded(), downLoadStateBean.getTotal());
+                        progress(downLoadStateBean.getTotal(), downLoadStateBean.getBytesLoaded(), downLoadStateBean.getTag());
                     }
                 });
-        return this;
     }
 
-    public abstract void progress(long progress, long total);
-
-    public abstract void onSuccess(T t);
+    public abstract void progress(long total, long progress, String tag);
 
     public void onStart() {
 
@@ -53,22 +56,29 @@ public abstract class ProgressCallBack<T> {
 
     }
 
+    public abstract void onSuccess(T t);
+
     public abstract void onError(Throwable e);
 
+    /**
+     * 存档
+     *
+     * @param body
+     */
     public void saveFile(ResponseBody body) {
-        InputStream is = null;
+        InputStream stream = null;
         byte[] buf = new byte[2048];
         int len;
         FileOutputStream fos = null;
         try {
-            is = body.byteStream();
-            File dir = new File(destFileDir);
+            stream = body.byteStream();
+            File dir = new File(fileDir);
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-            File file = new File(dir, destFileName);
+            File file = new File(dir, fileName);
             fos = new FileOutputStream(file);
-            while ((len = is.read(buf)) != -1) {
+            while ((len = stream.read(buf)) != -1) {
                 fos.write(buf, 0, len);
             }
             fos.flush();
@@ -79,10 +89,14 @@ public abstract class ProgressCallBack<T> {
             e.printStackTrace();
         } finally {
             try {
-                if (is != null) is.close();
-                if (fos != null) fos.close();
+                if (stream != null) {
+                    stream.close();
+                }
+                if (fos != null) {
+                    fos.close();
+                }
             } catch (IOException e) {
-                Log.e("saveFile", e.getMessage());
+                e.printStackTrace();
             }
         }
     }
@@ -91,6 +105,6 @@ public abstract class ProgressCallBack<T> {
      * 取消订阅，防止内存泄漏
      */
     public void unsubscribe() {
-
+        LiveBus.getDefault().clear("eventKey");
     }
 }

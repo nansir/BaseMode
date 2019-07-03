@@ -2,6 +2,10 @@ package com.sir.library.retrofit.download;
 
 import io.reactivex.observers.DisposableObserver;
 
+/**
+ * 下载观察
+ * Created by zhuyinan on 2018/3/28.
+ */
 public class DownLoadSubscriber<T> extends DisposableObserver<T> {
 
     private ProgressCallBack fileCallBack;
@@ -13,7 +17,7 @@ public class DownLoadSubscriber<T> extends DisposableObserver<T> {
     @Override
     public void onStart() {
         super.onStart();
-        if (fileCallBack != null){
+        if (fileCallBack != null) {
             fileCallBack.onStart();
         }
     }

@@ -1,59 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <Button
+        android:id="@+id/mvc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:text="MVC" />
 
-        <Button
-            android:id="@+id/mvc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MVC" />
+    <Button
+        android:id="@+id/mvp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MVP" />
 
-        <Button
-            android:id="@+id/mvp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MVP" />
+    <Button
+        android:id="@+id/mvvm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MVVM" />
 
-        <Button
-            android:id="@+id/mvvm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="MVVM" />
+    <Button
+        android:id="@+id/request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Request"
+        android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/download"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Download"
-            android:textAllCaps="false" />
+    <Button
+        android:id="@+id/download"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download"
+        android:textAllCaps="false" />
 
-
-        <Button
-            android:id="@+id/request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Request"
-            android:textAllCaps="false" />
-
-    </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/message"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:scrollbars="vertical"
         android:singleLine="false" />
 
-</RelativeLayout>
+</LinearLayout>
+
+
+
+
+

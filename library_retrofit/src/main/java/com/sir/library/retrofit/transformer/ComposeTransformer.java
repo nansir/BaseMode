@@ -22,7 +22,6 @@ public class ComposeTransformer {
             @Override
             public Publisher<T> apply(Flowable<HttpResponse<T>> upstream) {
                 return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .compose(PretreatmentFollowable.<T>getInstance());
             }
@@ -34,7 +33,6 @@ public class ComposeTransformer {
             @Override
             public ObservableSource<T> apply(Observable<HttpResponse<T>> upstream) {
                 return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .compose(PretreatmentObservable.<T>getInstance());
             }

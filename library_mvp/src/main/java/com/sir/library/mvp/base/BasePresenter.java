@@ -44,7 +44,9 @@ public class BasePresenter<V extends BaseView, M extends BaseModel> implements P
         unDisposable();
     }
 
-    //注销订阅
+    /**
+     * 解除订阅
+     */
     public void unDisposable() {
         if (mCompositeDisposable != null && mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.clear();

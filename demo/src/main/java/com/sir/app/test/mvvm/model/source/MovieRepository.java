@@ -3,14 +3,12 @@ package com.sir.app.test.mvvm.model.source;
 import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvvm.contract.MovieContract;
 import com.sir.app.test.mvvm.model.Repository;
-import com.sir.library.retrofit.download.DownLoadSubscriber;
+import com.sir.library.retrofit.download.DownLoadManager;
 import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
 
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 
 /**
  * Created by zhuyinan on 2019/6/24.
@@ -47,15 +45,6 @@ public class MovieRepository extends Repository implements MovieContract {
 
     @Override
     public void download(String url, final ProgressCallBack callBack) {
-        addSubscribe(apiService.download(url)
-                .subscribeOn(Schedulers.io())//请求网络 在调度者的io线程
-                .observeOn(Schedulers.io()) //指定线程保存文件
-                .doOnNext(new Consumer<ResponseBody>() {
-                    @Override
-                    public void accept(ResponseBody responseBody) {
-                        callBack.saveFile(responseBody);
-                    }
-                })
-                .subscribeWith(new DownLoadSubscriber<ResponseBody>(callBack)));
+        DownLoadManager.getInstance().downLoad(url, callBack);
     }
 }
