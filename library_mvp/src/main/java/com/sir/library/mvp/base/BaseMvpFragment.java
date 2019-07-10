@@ -56,6 +56,7 @@ public abstract class BaseMvpFragment<M extends BaseModel, P extends BasePresent
         if (mPresenter != null) {
             ContractProxy.getInstance().unbindView(getViewImp(), mPresenter);
             ContractProxy.getInstance().unbindModel(getModelClazz(), mPresenter);
+            ContractProxy.getInstance().unbindPresenter(getViewImp(), mPresenter);
             mPresenter = null;
         }
         super.onDestroy();
