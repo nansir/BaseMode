@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.sir.library.base.BaseFragmentV4;
+import com.sir.library.base.BaseFragment;
 import com.sir.library.mvc.ContractProxy;
 import com.sir.library.retrofit.event.ResState;
 
@@ -18,7 +18,7 @@ import java.util.List;
  * MVC 模式的 Control
  * Created by zhuyinan on 2019/6/27.
  */
-public abstract class BaseMvcFragment<M extends BaseModel> extends BaseFragmentV4 {
+public abstract class BaseMvcFragment<M extends BaseModel> extends BaseFragment {
 
     protected M mModel;
 

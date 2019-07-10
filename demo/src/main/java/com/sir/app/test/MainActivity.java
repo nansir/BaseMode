@@ -1,6 +1,5 @@
 package com.sir.app.test;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -44,7 +43,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void doBusiness(Context mContext) {
+    public void doBusiness(Bundle savedInstanceState) {
 
     }
 

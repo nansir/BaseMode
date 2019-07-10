@@ -2,6 +2,7 @@ package com.sir.app.test.mvvm.view;
 
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -40,7 +41,7 @@ public class MVVMActivity extends BaseMVVMActivity<MovieViewModel> {
     }
 
     @Override
-    public void doBusiness(Context mContext) {
+    public void doBusiness(Bundle savedInstanceState) {
         destFileDir = Environment.getExternalStorageDirectory().getPath();
         destFileName = System.currentTimeMillis() + ".apk";
     }

@@ -19,7 +19,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api 'com.sir.library:baseapp:1.4.1'
+    api 'com.sir.library:baseapp:1.4.2'
     api project(':library_retrofit')
     api libSupportAppcompat_v7
     api libSupportAppcompat_v4

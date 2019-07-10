@@ -1,7 +1,7 @@
 package com.sir.app.test.mvc.vc;
 
 import android.arch.lifecycle.Observer;
-import android.content.Context;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -9,9 +9,8 @@ import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.sir.app.test.R;
-import com.sir.app.test.mvc.model.MovieModel;
-
 import com.sir.app.test.entity.MovieResult;
+import com.sir.app.test.mvc.model.MovieModel;
 import com.sir.library.mvc.base.BaseMvcActivity;
 import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ExceptionHandle;
@@ -40,7 +39,7 @@ public class MVCActivity extends BaseMvcActivity<MovieModel> {
     }
 
     @Override
-    public void doBusiness(Context mContext) {
+    public void doBusiness(Bundle savedInstanceState) {
         destFileDir = Environment.getExternalStorageDirectory().getPath();
         destFileName = System.currentTimeMillis() + ".apk";
     }

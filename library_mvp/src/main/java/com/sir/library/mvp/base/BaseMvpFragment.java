@@ -2,14 +2,14 @@ package com.sir.library.mvp.base;
 
 import android.os.Bundle;
 
-import com.sir.library.base.BaseFragmentV4;
+import com.sir.library.base.BaseFragment;
 import com.sir.library.mvp.ContractProxy;
 
 /**
  * MVP 模式的 Fragment
  * Created by zhuyinan on 2017/4/5.
  */
-public abstract class BaseMvpFragment<M extends BaseModel, P extends BasePresenter> extends BaseFragmentV4 {
+public abstract class BaseMvpFragment<M extends BaseModel, P extends BasePresenter> extends BaseFragment {
 
     protected P mPresenter;
 

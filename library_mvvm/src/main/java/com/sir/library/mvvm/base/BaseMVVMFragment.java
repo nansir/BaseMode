@@ -10,7 +10,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.sir.library.base.BaseFragmentV4;
+import com.sir.library.base.BaseFragment;
 import com.sir.library.mvvm.ContractProxy;
 import com.sir.library.retrofit.event.LiveBus;
 import com.sir.library.retrofit.event.ResState;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by zhuyinan on 2019/6/21.
  */
-public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFragmentV4 {
+public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFragment {
 
     protected T mViewModel;
 
@@ -48,7 +48,7 @@ public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFrag
         }
     }
 
-    protected <T extends ViewModel> T VMProviders(BaseFragmentV4 fragment, @NonNull Class<T> modelClass) {
+    protected <T extends ViewModel> T VMProviders(BaseFragment fragment, @NonNull Class<T> modelClass) {
         return ViewModelProviders.of(fragment).get(modelClass);
     }
 

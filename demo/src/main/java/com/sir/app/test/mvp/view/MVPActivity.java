@@ -1,6 +1,6 @@
 package com.sir.app.test.mvp.view;
 
-import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
 import com.google.gson.Gson;
@@ -26,7 +26,7 @@ public class MVPActivity extends BaseMvpActivity<MovieModel, MoviePresenter> imp
     }
 
     @Override
-    public void doBusiness(Context mContext) {
+    public void doBusiness(Bundle savedInstanceState) {
 
     }
 
