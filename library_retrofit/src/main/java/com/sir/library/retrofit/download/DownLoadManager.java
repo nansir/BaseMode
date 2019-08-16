@@ -60,7 +60,7 @@ public class DownLoadManager {
      * @param downUrl
      * @param callBack
      */
-    public void downLoad(String downUrl, final ProgressCallBack callBack) {
+    public void downloadFile(String downUrl, final ProgressCallBack callBack) {
         retrofit.create(ApiService.class)
                 .download(downUrl)
                 .subscribeOn(Schedulers.io())

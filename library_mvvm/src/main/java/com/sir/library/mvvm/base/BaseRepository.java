@@ -1,10 +1,13 @@
 package com.sir.library.mvvm.base;
 
 import android.arch.lifecycle.MutableLiveData;
+import android.support.annotation.IntDef;
 
 import com.sir.library.retrofit.event.LiveBus;
 import com.sir.library.retrofit.event.ResState;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.UUID;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -42,8 +45,18 @@ public abstract class BaseRepository {
      *
      * @param state
      */
-    protected void postState(int state) {
-        postState(state, null);
+    protected void postState(@BaseRepository.state int state) {
+        switch (state) {
+            case ON_SUCCESS:
+                postState(state, "完成");
+                break;
+            case ON_FAILURE:
+                postState(state, "失败");
+                break;
+            case ON_LOADING:
+                postState(state, "正在加载..");
+                break;
+        }
     }
 
     /**
@@ -51,11 +64,12 @@ public abstract class BaseRepository {
      *
      * @param state
      */
-    protected void postState(int state, String msg) {
+    protected void postState(@BaseRepository.state int state, String msg) {
         if (loadState != null) {
             loadState.postValue(new ResState(state, msg));
         }
     }
+
 
     /**
      * 发布数据
@@ -94,5 +108,11 @@ public abstract class BaseRepository {
         if (mCompositeDisposable != null && mCompositeDisposable.isDisposed()) {
             mCompositeDisposable.clear();
         }
+    }
+
+    @IntDef({ON_SUCCESS, ON_FAILURE, ON_LOADING})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface state {
+
     }
 }

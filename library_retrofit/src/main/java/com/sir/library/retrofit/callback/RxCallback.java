@@ -17,7 +17,7 @@ public abstract class RxCallback<T> implements Callback<HttpResponse<T>> {
     public void onResponse(Call<HttpResponse<T>> call, Response<HttpResponse<T>> res) {
         HttpResponse<T> response = res.body();
         if (response.getResCode() != 0) {
-            ServerException resultException = new ServerException(response.getResError(), response.getResCode());
+            ServerException resultException = new ServerException(response.getResMsg(), response.getResCode());
             ResponseThrowable ex = new ResponseThrowable(resultException, resultException.code);
             ex.message = resultException.message;
             onFailure(ex);

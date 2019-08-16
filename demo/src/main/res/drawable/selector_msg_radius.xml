@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <!-- 填充 -->
+            <solid android:color="@color/colorBtnClick" />
+            <!-- 圆角 -->
+            <corners android:bottomLeftRadius="@dimen/msg_radius" android:bottomRightRadius="@dimen/msg_radius" />
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <!-- 填充 -->
+            <solid android:color="@android:color/transparent" />
+            <!-- 圆角 -->
+            <corners android:bottomLeftRadius="@dimen/msg_radius" android:bottomRightRadius="@dimen/msg_radius" />
+        </shape>
+    </item>
+</selector>

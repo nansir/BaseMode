@@ -1,6 +1,7 @@
 package com.sir.app.test.mvvm.model;
 
 import com.sir.app.test.api.MovieApi;
+import com.sir.app.test.common.AppConstant;
 import com.sir.app.test.common.MyApplication;
 import com.sir.library.mvvm.base.BaseRepository;
 import com.sir.library.retrofit.HttpUtils;
@@ -13,7 +14,7 @@ public class Repository extends BaseRepository {
         this.apiService =
                 HttpUtils.getInstance(MyApplication.getContext())
                 .getRetrofitClient()
-                .setBaseUrl("http://op.juhe.cn/onebox/")
+                .setBaseUrl(AppConstant.URL_HOST)
                 .builder(MovieApi.class);
     }
 }

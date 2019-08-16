@@ -1,6 +1,7 @@
 package com.sir.app.test.mvp.model;
 
 import com.sir.app.test.api.MovieApi;
+import com.sir.app.test.common.AppConstant;
 import com.sir.app.test.common.MyApplication;
 import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvp.contract.MovieContract;
@@ -22,7 +23,7 @@ public class MovieModel implements MovieContract.Model {
                 .setLoadMemoryCache(false)//是否加载内存缓存数据
                 .setLoadDiskCache(true)//是否加载内存缓存数据
                 .getRetrofitClient()
-                .setBaseUrl("http://op.juhe.cn/onebox/")
+                .setBaseUrl(AppConstant.URL_HOST)
                 .builder(MovieApi.class);
     }
 

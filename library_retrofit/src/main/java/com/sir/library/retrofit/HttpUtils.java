@@ -5,7 +5,9 @@ import android.util.Log;
 
 import com.sir.library.retrofit.config.NetWorkConfiguration;
 import com.sir.library.retrofit.cookie.SimpleCookieJar;
+import com.sir.library.retrofit.interceptor.HostInterceptor;
 import com.sir.library.retrofit.interceptor.LogInterceptor;
+import com.sir.library.retrofit.interceptor.ProgressInterceptor;
 import com.sir.library.retrofit.request.RetrofitClient;
 import com.sir.library.retrofit.utils.NetworkUtil;
 
@@ -100,8 +102,10 @@ public class HttpUtils {
 
         if (configuration.getIsCache()) {
             mOkHttpClient = new OkHttpClient.Builder()
-                    .addNetworkInterceptor(interceptor)     //添加网络拦截器
-                    .addInterceptor(new LogInterceptor()) //自定义网络Log显示
+                    .addNetworkInterceptor(interceptor)         //添加网络拦截器
+                    .addInterceptor(new LogInterceptor())       //自定义网络Log显示
+                    .addInterceptor(new HostInterceptor())      //主机拦截器
+                    .addInterceptor(new ProgressInterceptor())  //进度主机拦截器
                     .cache(configuration.getDiskCache())
                     .connectTimeout(configuration.getConnectTimeOut(), TimeUnit.SECONDS)
                     .connectionPool(configuration.getConnectionPool())
@@ -111,6 +115,8 @@ public class HttpUtils {
             mOkHttpClient = new OkHttpClient.Builder()
                     .addNetworkInterceptor(interceptor)
                     .addInterceptor(new LogInterceptor())
+                    .addInterceptor(new HostInterceptor())
+                    .addInterceptor(new ProgressInterceptor())
                     .connectTimeout(configuration.getConnectTimeOut(), TimeUnit.SECONDS)
                     .connectionPool(configuration.getConnectionPool())
                     .retryOnConnectionFailure(true)

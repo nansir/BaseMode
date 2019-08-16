@@ -28,6 +28,17 @@ public class ComposeTransformer {
         };
     }
 
+    public static <T> FlowableTransformer<HttpResponse, T> FlowableMsg() {
+        return new FlowableTransformer<HttpResponse, T>() {
+            @Override
+            public Publisher<T> apply(Flowable<HttpResponse> upstream) {
+                return upstream.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .compose(PretreatmentFollowableMsg.<T>getInstance());
+            }
+        };
+    }
+
     public static <T> ObservableTransformer<HttpResponse<T>, T> Observable() {
         return new ObservableTransformer<HttpResponse<T>, T>() {
             @Override

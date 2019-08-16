@@ -25,12 +25,9 @@ public abstract class BaseMvcFragment<M extends BaseModel> extends BaseFragment 
     protected Observer observer = new Observer<ResState>() {
         @Override
         public void onChanged(@Nullable ResState state) {
-            if (!TextUtils.isEmpty(state.getMsg())) {
-                Toast.makeText(getContext(), state.getMsg(), Toast.LENGTH_LONG).show();
-            }
+            notification(state);
         }
     };
-
 
     private List<Object> eventKeys = new ArrayList<>();
 
@@ -52,10 +49,6 @@ public abstract class BaseMvcFragment<M extends BaseModel> extends BaseFragment 
         }
     }
 
-    protected void dataObserver() {
-
-    }
-
     protected <T> MutableLiveData<T> registerSubscriber(Object eventKey, Class<T> tClass) {
         return registerSubscriber(eventKey, null, tClass);
     }
@@ -70,6 +63,10 @@ public abstract class BaseMvcFragment<M extends BaseModel> extends BaseFragment 
         eventKeys.add(event);
         return mModel.subscribe(eventKey, tag, tClass);
     }
+
+    protected abstract void dataObserver();
+
+    protected abstract void notification(ResState state);
 
     @Override
     public void onDestroyView() {

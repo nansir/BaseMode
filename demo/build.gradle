@@ -24,7 +24,7 @@ dependencies {
     implementation project(':library_mvc')
     implementation project(':library_mvp')
     implementation project(':library_mvvm')
-
+    implementation 'pub.devrel:easypermissions:1.0.0'
     implementation('com.jakewharton:butterknife:8.8.1') {
         exclude group: 'com.android.support'
     }

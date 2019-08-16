@@ -24,7 +24,12 @@ public class MovieViewModel extends BaseViewModel<MovieRepository> implements Mo
     }
 
     @Override
-    public void download(String url, ProgressCallBack callBack) {
-        mRepository.download(url, callBack);
+    public void uploadFile(String filePath) {
+        mRepository.uploadFile(filePath);
+    }
+
+    @Override
+    public void downloadFile(String fileUrl, ProgressCallBack callBack) {
+        mRepository.downloadFile(fileUrl, callBack);
     }
 }

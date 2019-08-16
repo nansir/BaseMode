@@ -53,6 +53,7 @@ public class ProgressResponse extends ResponseBody {
 
     private Source source(Source source) {
         return new ForwardingSource(source) {
+
             long bytesLoaded = 0;
 
             @Override

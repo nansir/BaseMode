@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
 import com.sir.library.retrofit.event.LiveBus;
+import com.sir.library.retrofit.exception.ResponseThrowable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,13 +41,13 @@ public abstract class ProgressCallBack<T> {
         LiveBus.getDefault().subscribe(LIVE_PROGRESS, DownLoadStateBean.class)
                 .observeForever(new Observer<DownLoadStateBean>() {
                     @Override
-                    public void onChanged(@Nullable DownLoadStateBean downLoadStateBean) {
-                        progress(downLoadStateBean.getTotal(), downLoadStateBean.getBytesLoaded(), downLoadStateBean.getTag());
+                    public void onChanged(@Nullable DownLoadStateBean stateBean) {
+                        progress(stateBean);
                     }
                 });
     }
 
-    public abstract void progress(long total, long progress, String tag);
+    public abstract void progress(DownLoadStateBean stateBean);
 
     public void onStart() {
 
@@ -58,7 +59,7 @@ public abstract class ProgressCallBack<T> {
 
     public abstract void onSuccess(T t);
 
-    public abstract void onError(Throwable e);
+    public abstract void onError(ResponseThrowable throwable);
 
     /**
      * 存档

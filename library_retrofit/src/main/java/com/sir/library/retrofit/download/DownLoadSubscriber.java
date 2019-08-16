@@ -1,5 +1,7 @@
 package com.sir.library.retrofit.download;
 
+import com.sir.library.retrofit.exception.ExceptionHandle;
+
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -32,7 +34,7 @@ public class DownLoadSubscriber<T> extends DisposableObserver<T> {
     @Override
     public void onError(Throwable e) {
         if (fileCallBack != null) {
-            fileCallBack.onError(e);
+            fileCallBack.onError(ExceptionHandle.handleException(e));
         }
     }
 

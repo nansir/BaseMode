@@ -1,14 +1,19 @@
 package com.sir.app.test.mvvm.model.source;
 
+import com.sir.app.test.common.MyApplication;
 import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvvm.contract.MovieContract;
 import com.sir.app.test.mvvm.model.Repository;
 import com.sir.library.retrofit.download.DownLoadManager;
+import com.sir.library.retrofit.download.DownLoadSubscriber;
 import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 import com.sir.library.retrofit.transformer.ComposeTransformer;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 /**
  * Created by zhuyinan on 2019/6/24.
@@ -16,10 +21,15 @@ import io.reactivex.functions.Consumer;
 public class MovieRepository extends Repository implements MovieContract {
 
     public static String EVENT_KEY_LIVE = null;
+    public static String EVENT_PROGRESS = null;
 
     public MovieRepository() {
         if (EVENT_KEY_LIVE == null) {
             EVENT_KEY_LIVE = getEventKey();
+        }
+
+        if (EVENT_PROGRESS == null) {
+            EVENT_PROGRESS = getEventKey();
         }
     }
 
@@ -44,7 +54,22 @@ public class MovieRepository extends Repository implements MovieContract {
     }
 
     @Override
-    public void download(String url, final ProgressCallBack callBack) {
-        DownLoadManager.getInstance().downLoad(url, callBack);
+    public void downloadFile(String fileUrl, final ProgressCallBack callBack) {
+        apiService.downloadFile(fileUrl)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<ResponseBody>() {
+                    @Override
+                    public void accept(ResponseBody responseBody) {
+                        callBack.saveFile(responseBody);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DownLoadSubscriber<ResponseBody>(callBack));
+    }
+
+    @Override
+    public void uploadFile(String filePath) {
+
     }
 }

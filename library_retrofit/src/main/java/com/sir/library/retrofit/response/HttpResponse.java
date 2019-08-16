@@ -12,7 +12,7 @@ public class HttpResponse<T> {
     private int resCode;
 
     @SerializedName("reason")
-    private String resError;
+    private String resMsg;
 
     @SerializedName("result")
     private T resBody;
@@ -21,12 +21,13 @@ public class HttpResponse<T> {
         return resCode;
     }
 
-    public String getResError() {
-        return resError == null ? "" : resError;
+    public String getResMsg() {
+        return resMsg == null ? "" : resMsg;
     }
 
     public T getResBody() {
         return resBody;
     }
+
 
 }

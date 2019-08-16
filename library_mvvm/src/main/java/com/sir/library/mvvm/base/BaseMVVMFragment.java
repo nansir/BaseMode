@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.sir.library.base.BaseFragment;
 import com.sir.library.mvvm.ContractProxy;
@@ -24,16 +23,11 @@ import java.util.List;
 public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFragment {
 
     protected T mViewModel;
-
-    /**
-     * 状态页面监听
-     */
+    //状态页面监听
     protected Observer observer = new Observer<ResState>() {
         @Override
         public void onChanged(@Nullable ResState state) {
-            if (!TextUtils.isEmpty(state.getMsg())) {
-                Toast.makeText(getContext(), state.getMsg(), Toast.LENGTH_LONG).show();
-            }
+            notification(state);
         }
     };
 
@@ -41,6 +35,7 @@ public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFrag
 
     @Override
     public void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
         mViewModel = VMProviders(this, (Class<T>) ContractProxy.getInstance(this, 0));
         if (null != mViewModel) {
             dataObserver();
@@ -52,9 +47,9 @@ public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFrag
         return ViewModelProviders.of(fragment).get(modelClass);
     }
 
-    protected void dataObserver() {
+    protected abstract void dataObserver();
 
-    }
+    protected abstract void notification(ResState state);
 
     protected <T> MutableLiveData<T> registerSubscriber(Object eventKey, Class<T> tClass) {
         return registerSubscriber(eventKey, null, tClass);
@@ -69,6 +64,20 @@ public abstract class BaseMVVMFragment<T extends BaseViewModel> extends BaseFrag
         }
         eventKeys.add(event);
         return LiveBus.getDefault().subscribe(eventKey, tag, tClass);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        clearEvent();
+    }
+
+    private void clearEvent() {
+        if (eventKeys != null && eventKeys.size() > 0) {
+            for (int i = 0; i < eventKeys.size(); i++) {
+                LiveBus.getDefault().clear(eventKeys.get(i));
+            }
+        }
     }
 
 }

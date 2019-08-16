@@ -43,7 +43,7 @@ public class PretreatmentFollowable<T> implements FlowableTransformer<HttpRespon
             public T apply(HttpResponse<T> response) {
                 if (response.getResCode() != 0) {
                     //如果服务器端有错误信息返回，那么抛出异常，让下面的方法去捕获异常做统一处理
-                    throw new ServerException(response.getResError(), response.getResCode());
+                    throw new ServerException(response.getResMsg(), response.getResCode());
                 }
                 //服务器请求数据成功，返回里面的数据实体
                 return response.getResBody();

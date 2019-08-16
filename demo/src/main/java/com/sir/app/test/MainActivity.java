@@ -1,36 +1,29 @@
 package com.sir.app.test;
 
-import android.os.Bundle;
-import android.os.Environment;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.sir.app.test.api.MovieApi;
+import com.sir.app.test.common.AppActivity;
+import com.sir.app.test.common.AppConstant;
+import com.sir.app.test.common.AppLog;
 import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvc.vc.MVCActivity;
 import com.sir.app.test.mvp.view.MVPActivity;
 import com.sir.app.test.mvvm.view.MVVMActivity;
-import com.sir.library.base.BaseActivity;
 import com.sir.library.retrofit.HttpUtils;
 import com.sir.library.retrofit.callback.RxCallback;
-import com.sir.library.retrofit.download.DownLoadManager;
-import com.sir.library.retrofit.download.ProgressCallBack;
-import com.sir.library.retrofit.exception.ExceptionHandle;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 
-import java.math.BigDecimal;
-
-import butterknife.BindView;
 import butterknife.OnClick;
-import okhttp3.ResponseBody;
+import pub.devrel.easypermissions.EasyPermissions;
 
+public class MainActivity extends AppActivity {
 
-public class MainActivity extends BaseActivity {
-
-
-    @BindView(R.id.progress)
-    ProgressBar progressBar;
+    final int RC_WRITE = 1001;
 
     @Override
     public int bindLayout() {
@@ -38,16 +31,26 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    public void initView(Bundle savedInstanceState) {
+    public void doBusiness() {
         setSwipeBackEnable(false);
+        checkPermissions();
     }
 
-    @Override
-    public void doBusiness(Bundle savedInstanceState) {
+    /**
+     * APP检查更新
+     */
+    private void checkPermissions() {
+        String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, perms)) {
 
+        } else {
+            // 申请权限
+            EasyPermissions.requestPermissions(this, "检查应用更新需要存储权限", RC_WRITE, perms);
+        }
     }
 
-    @OnClick({R.id.mvc, R.id.mvp, R.id.mvvm, R.id.request, R.id.download})
+    @OnClick({R.id.mvc, R.id.mvp, R.id.mvvm, R.id.request})
     public void onClickBtn(View view) {
         switch (view.getId()) {
             case R.id.mvc:
@@ -59,58 +62,47 @@ public class MainActivity extends BaseActivity {
             case R.id.mvvm:
                 mOperation.forward(MVVMActivity.class);
                 break;
-            case R.id.download:
-                load("http://gdown.baidu.com/data/wisegame/a2cd8828b227b9f9/neihanduanzi_692.apk");
-                break;
             case R.id.request:
-                setText(R.id.message, "开始请求");
+                setTextVal(R.id.message, "开始请求");
                 HttpUtils.getInstance(this)
                         .setLoadMemoryCache(true)//是否加载内存缓存数据
                         .setLoadDiskCache(true)//是否加载内存缓存数据
                         .getRetrofitClient()
-                        .setBaseUrl("http://op.juhe.cn/onebox/")
+                        .setBaseUrl(AppConstant.URL_HOST)
                         .builder(MovieApi.class)
                         .getMovieC("eff63ec0285b079f8fe418a13778a10d", "杭州")
                         .enqueue(new RxCallback<MovieResult>() {
                             @Override
                             protected void onFailure(ResponseThrowable ex) {
-                                setText(R.id.message, ex.message);
+                                setTextVal(R.id.message, ex.message);
                             }
 
                             @Override
                             protected void onSuccess(MovieResult movieResult) {
-                                setText(R.id.message, new Gson().toJson(movieResult));
+                                setTextVal(R.id.message, new Gson().toJson(movieResult));
                             }
                         });
                 break;
         }
-
-
     }
 
-    //下载
-    public void load(String downUrl) {
-        String destFileDir = Environment.getExternalStorageDirectory().getPath();
-        String destFileName = System.currentTimeMillis() + ".apk";
-        DownLoadManager.getInstance().downLoad(downUrl, new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
-            @Override
-            public void progress(long total, long progress, String tag) {
-                progressBar.setMax((int) total);
-                progressBar.setProgress((int) progress);
-                int percent = (int) ((new BigDecimal((float) progress / total).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue()) * 100);
-                setText(R.id.message, "已经下载：" + percent + "%");
-            }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case RC_WRITE:
+                //grantResults数组存储的申请的返回结果，
+                //PERMISSION_GRANTED 表示申请成功
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //授权成功，
 
-            @Override
-            public void onSuccess(ResponseBody responseBody) {
-                setText(R.id.message, "完成");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                ResponseThrowable throwable = ExceptionHandle.handleException(e);
-                setText(R.id.message, throwable.message);
-            }
-        });
+                } else {
+                    //授权失败，简单提示用户
+                    AppLog.toast("授权失败");
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

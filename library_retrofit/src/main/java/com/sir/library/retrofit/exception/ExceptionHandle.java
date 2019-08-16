@@ -39,18 +39,25 @@ public class ExceptionHandle {
                 case UNAUTHORIZED:
                 case FORBIDDEN:
                     ex.message = "未经授权";
+                    break;
                 case NOT_FOUND:
-                    ex.message = "未找到";
+                    ex.message = "404未找到";
+                    break;
                 case REQUEST_TIMEOUT:
                     ex.message = "请求超时";
+                    break;
                 case GATEWAY_TIMEOUT:
                     ex.message = "网关超时";
+                    break;
                 case INTERNAL_SERVER_ERROR:
                     ex.message = "服务器内部错误";
+                    break;
                 case BAD_GATEWAY:
                     ex.message = "网关错误";
+                    break;
                 case SERVICE_UNAVAILABLE:
                     ex.message = "暂停服务";
+                    break;
                 default:
                     ex.message = "网络异常";
                     break;

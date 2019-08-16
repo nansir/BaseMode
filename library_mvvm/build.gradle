@@ -22,7 +22,6 @@ dependencies {
     api 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
     api 'com.trello.rxlifecycle2:rxlifecycle-components:2.2.2'
 
-    api 'com.sir.library:baseapp:1.4.2'
     api project(':library_retrofit')
     api libSupportAppcompat_v7
     api libSupportAppcompat_v4

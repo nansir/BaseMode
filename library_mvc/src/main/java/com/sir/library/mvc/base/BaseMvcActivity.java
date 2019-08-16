@@ -3,8 +3,6 @@ package com.sir.library.mvc.base;
 import android.arch.lifecycle.Observer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.sir.library.base.BaseActivity;
 import com.sir.library.mvc.ContractProxy;
@@ -21,9 +19,7 @@ public abstract class BaseMvcActivity<M extends BaseModel> extends BaseActivity 
     protected Observer observer = new Observer<ResState>() {
         @Override
         public void onChanged(@Nullable ResState state) {
-            if (!TextUtils.isEmpty(state.getMsg())) {
-                Toast.makeText(getActivity(), state.getMsg(), Toast.LENGTH_LONG).show();
-            }
+            notification(state);
         }
     };
 
@@ -45,9 +41,9 @@ public abstract class BaseMvcActivity<M extends BaseModel> extends BaseActivity 
         }
     }
 
-    protected void dataObserver() {
+    protected abstract void dataObserver();
 
-    }
+    protected abstract void notification(ResState state);
 
     @Override
     protected void onDestroy() {
