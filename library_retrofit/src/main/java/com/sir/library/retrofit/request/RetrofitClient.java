@@ -13,22 +13,42 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class RetrofitClient {
 
     private static OkHttpClient mOkHttpClient;
-    //初始化BaseUrl
-    private static String baseUrl;
 
-    private static Retrofit retrofit;
+    private static String mBaseUrl;
+
+    private static Retrofit mRetrofit;
+
+    private static RetrofitClient mInstance;
+
+    private RetrofitClient() {
+
+    }
 
     /**
-     * RetrofitClient 构造 函数
-     * 获取OKhttpClient 实例
+     * 获取请求网络实例
+     *
+     * @return
+     */
+    public static RetrofitClient getInstance() {
+        if (mInstance == null) {
+            synchronized (RetrofitClient.class) {
+                if (mInstance == null) {
+                    mInstance = new RetrofitClient();
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    /**
+     * 获取OKHttpClient 实例
      *
      * @param mOkHttpClient
      */
-    public RetrofitClient(String baseUrl, OkHttpClient mOkHttpClient) {
-        this.baseUrl = baseUrl;
+    public RetrofitClient setOkHttpClient(OkHttpClient mOkHttpClient) {
         this.mOkHttpClient = mOkHttpClient;
+        return this;
     }
-
 
     /**
      * 修改BaseUrl地址
@@ -36,7 +56,7 @@ public class RetrofitClient {
      * @param baseUrl
      */
     public RetrofitClient setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
+        this.mBaseUrl = baseUrl;
         return this;
     }
 
@@ -48,21 +68,21 @@ public class RetrofitClient {
      * @return
      */
     public <T> T builder(Class<T> service) {
-        if (baseUrl == null) {
-            throw new RuntimeException("baseUrl is null!");
+        if (mBaseUrl == null) {
+            throw new RuntimeException("BaseUrl is null!");
         }
         if (service == null) {
             throw new RuntimeException("api Service is null!");
         }
-
-        retrofit = new Retrofit.Builder()
-                .client(mOkHttpClient)
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-
-        return retrofit.create(service);
+        if (mRetrofit == null) {
+            mRetrofit = new Retrofit.Builder()
+                    .client(mOkHttpClient)
+                    .baseUrl(mBaseUrl)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(ScalarsConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .build();
+        }
+        return mRetrofit.create(service);
     }
 }

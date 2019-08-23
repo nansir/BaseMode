@@ -44,7 +44,7 @@ public interface MovieApi {
      * @return
      */
     @Streaming
-    @Headers("baseUrl:http://gdown.baidu.com/")
+    @Headers("setBaseUrl:http://gdown.baidu.com/")
     @GET("data/wisegame/{path}")
     Observable<ResponseBody> downloadFile(@Path("path") String fileUrl);
 

@@ -214,14 +214,23 @@ public class HttpUtils {
         return this;
     }
 
-    public RetrofitClient getRetrofitClient() {
-        Log.i(TAG, "configuration:" + configuration.toString());
-        return new RetrofitClient(configuration.getBaseUrl(), mOkHttpClient);
+    /**
+     * 设置 baseUrl
+     *
+     * @param baseUrl
+     * @return
+     */
+    public HttpUtils setBaseUrl(String baseUrl) {
+        configuration.setBaseUrl(baseUrl);
+        return this;
     }
 
-    public RetrofitClient getRetrofitClient(OkHttpClient client) {
-        Log.i(TAG, "configuration:" + configuration.toString());
-        return new RetrofitClient(configuration.getBaseUrl(), client);
+    /**
+     * Retrofit Client
+     * @return
+     */
+    public RetrofitClient getRetrofitClient() {
+        return RetrofitClient.getInstance().setBaseUrl(configuration.getBaseUrl()).setOkHttpClient(mOkHttpClient);
     }
 
     /**
@@ -258,6 +267,19 @@ public class HttpUtils {
     public HttpUtils addCookie() {
         mOkHttpClient = getOkHttpClient().newBuilder()
                 .cookieJar(new SimpleCookieJar())
+                .build();
+        return this;
+    }
+
+    /**
+     * 添加拦截器
+     *
+     * @param interceptor
+     * @return
+     */
+    public HttpUtils addInterceptor(Interceptor interceptor) {
+        mOkHttpClient = getOkHttpClient().newBuilder()
+                .addInterceptor(interceptor)
                 .build();
         return this;
     }

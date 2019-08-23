@@ -234,14 +234,14 @@ public final class NetWorkConfiguration {
     /**
      * 设置网络BaseUrl地址
      *
-     * @param url
+     * @param baseUrl
      * @return
      */
-    public NetWorkConfiguration baseUrl(String url) {
-        if (url != null) {
-            this.baseUrl = url;
+    public NetWorkConfiguration setBaseUrl(String baseUrl) {
+        if (baseUrl != null) {
+            this.baseUrl = baseUrl;
         } else {
-            Log.e(TAG, "NetWorkConfiguration no baseUrl");
+            Log.e(TAG, "NetWorkConfiguration no set BaseUrl");
         }
         return this;
     }
@@ -279,7 +279,7 @@ public final class NetWorkConfiguration {
                 ", connectTimeout=" + connectTimeout +
                 ", connectionPool=" + connectionPool +
                 ", certificates=" + Arrays.toString(certificates) +
-                ", baseUrl='" + baseUrl + '\'' +
+                ", setBaseUrl='" + baseUrl + '\'' +
                 '}';
     }
 }

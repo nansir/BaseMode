@@ -1,10 +1,8 @@
 package com.sir.app.test.mvvm.model.source;
 
-import com.sir.app.test.common.MyApplication;
 import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvvm.contract.MovieContract;
 import com.sir.app.test.mvvm.model.Repository;
-import com.sir.library.retrofit.download.DownLoadManager;
 import com.sir.library.retrofit.download.DownLoadSubscriber;
 import com.sir.library.retrofit.download.ProgressCallBack;
 import com.sir.library.retrofit.exception.ResponseThrowable;

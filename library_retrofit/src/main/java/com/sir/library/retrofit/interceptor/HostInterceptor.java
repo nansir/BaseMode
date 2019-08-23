@@ -20,7 +20,7 @@ public class HostInterceptor implements Interceptor {
         //获取request的创建者builder
         Request.Builder builder = request.newBuilder();
         //从request中获取headers，通过给定的键url_name
-        List<String> headerValues = request.headers("baseUrl");
+        List<String> headerValues = request.headers("setBaseUrl");
         if (headerValues != null && headerValues.size() > 0) {
 
             //匹配获得新的BaseUrl
@@ -38,7 +38,7 @@ public class HostInterceptor implements Interceptor {
                     .build();
 
             //如果有这个header，先将配置的header删除，因此header仅用作app和okhttp之间使用
-            builder.removeHeader("baseUrl");
+            builder.removeHeader("setBaseUrl");
 
             //重建这个request，通过builder.url(newFullUrl).build()；
             //然后返回一个response至此结束修改

@@ -4,33 +4,27 @@ import android.arch.lifecycle.Observer;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.sir.app.test.R;
-import com.sir.app.test.common.AppMVVMActivity;
+import com.sir.app.test.common.AppHolderActivity;
 import com.sir.app.test.entity.MovieResult;
 import com.sir.app.test.mvvm.model.source.MovieRepository;
 import com.sir.app.test.mvvm.vm.MovieViewModel;
 import com.sir.library.retrofit.download.DownLoadStateBean;
 import com.sir.library.retrofit.download.ProgressCallBack;
-import com.sir.library.retrofit.exception.ExceptionHandle;
 import com.sir.library.retrofit.exception.ResponseThrowable;
 
-import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.ResponseBody;
 
 /**
  * Created by zhuyinan on 2019/6/24.
  */
-public class MVVMActivity extends AppMVVMActivity<MovieViewModel> {
+public class MVVMActivity extends AppHolderActivity<MovieViewModel, MVVMViewHolder> {
 
     String destFileDir;
     String destFileName;
-
-    @BindView(R.id.progress)
-    ProgressBar progressBar;
 
     @Override
     public int bindLayout() {
@@ -52,11 +46,10 @@ public class MVVMActivity extends AppMVVMActivity<MovieViewModel> {
             case R.id.download:
                 setTextVal(R.id.message, "开始下载");
                 mViewModel.downloadFile("a2cd8828b227b9f9/neihanduanzi_692.apk", new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
-
                     @Override
                     public void progress(DownLoadStateBean bean) {
-                        progressBar.setMax((int) bean.getTotal());
-                        progressBar.setProgress((int) bean.getLoaded());
+                        mViewHolder.progressBar.setMax((int) bean.getTotal());
+                        mViewHolder.progressBar.setProgress((int) bean.getLoaded());
                         setTextVal(R.id.message, "已经下载：" + bean.getPercent() + "%");
                     }
 
